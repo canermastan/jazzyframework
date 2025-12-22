@@ -3,6 +3,13 @@ import "@/styles/global.css"
 import { Button } from "@/components/ui/button"
 import CodeShowcase from "@/components/landing/CodeShowcase"
 import { ArrowRight, Terminal, Zap } from "lucide-react"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 ---
 
 <html lang="en">
@@ -48,50 +55,129 @@ import { ArrowRight, Terminal, Zap } from "lucide-react"
       </div>
     </nav>
 
-    <main class="flex-1 container mx-auto px-4 py-8 lg:py-0 flex flex-col lg:flex-row items-center gap-12 lg:gap-8">
+    <main class="flex-1 flex flex-col gap-24">
       
-      {/* Left Column: Text & CTA */}
-      <div class="flex-1 space-y-8 text-center lg:text-left pt-8 lg:pt-0">
-         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border-2 border-border bg-chart-3 text-foreground text-sm font-bold shadow-sm transform -rotate-2 hover:rotate-0 transition-transform">
-            <Zap size={16} fill="currentColor" />
-            <span>v0.1.0 is now live!</span>
-         </div>
-         
-         <h1 class="text-5xl lg:text-7xl font-heading font-black leading-tight">
-            Write Less Code,<br />
-            <span class="text-main bg-main/10 px-2 rounded-base">Build More</span> Features.
-         </h1>
+      {/* Hero Section */}
+      <section class="container mx-auto px-4 py-8 lg:py-0 flex flex-col lg:flex-row items-center gap-12 lg:gap-8 min-h-[calc(100vh-4rem)]">
+        {/* Left Column: Text & CTA */}
+        <div class="flex-1 space-y-8 text-center lg:text-left pt-8 lg:pt-0">
+           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border-2 border-border bg-chart-3 text-foreground text-sm font-bold shadow-sm transform -rotate-2 hover:rotate-0 transition-transform">
+              <Zap size={16} fill="currentColor" />
+              <span>v0.1.0 is now live!</span>
+           </div>
+           
+           <h1 class="text-5xl lg:text-7xl font-heading font-black leading-tight">
+              Write Less Code,<br />
+              <span class="text-main bg-main/10 px-2 rounded-base">Build More</span> Features.
+           </h1>
+  
+           <p class="text-xl lg:text-2xl font-medium max-w-xl mx-auto lg:mx-0 opacity-90">
+              <span class="font-black text-main">The Productive Framework.</span> 
+              Developer-friendly, lightning fast, and designed for rapid development.
+           </p>
+  
+           <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+              <Button size="lg" className="text-lg h-14 px-8 w-full sm:w-auto">
+                Get Started <ArrowRight className="ml-2 w-5 h-5" />
+              </Button>
+              <Button variant="neutral" size="lg" className="text-lg h-14 px-8 w-full sm:w-auto">
+                Read the Docs
+              </Button>
+           </div>
+  
+           <div class="pt-8 flex items-center justify-center lg:justify-start gap-8 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+              {/* Mock logos or indicators of tech stack */}
+              <div class="font-bold text-sm">Nim Lang</div>
+              <div class="font-bold text-sm">Native Speed</div>
+              <div class="font-bold text-sm">Async I/O</div>
+           </div>
+        </div>
+  
+        {/* Right Column: Code Showcase */}
+        <div class="flex-1 w-full max-w-xl lg:max-w-2xl perspective-1000">
+           <div class="transform lg:rotate-y-[-5deg] lg:rotate-x-[5deg] transition-transform hover:transform-none duration-500">
+              <CodeShowcase client:load />
+           </div>
+        </div>
+      </section>
 
-         <p class="text-xl lg:text-2xl font-medium max-w-xl mx-auto lg:mx-0 opacity-90">
-            The Productive Framework. 
-            Developer-friendly, lightning fast, and designed for rapid development.
-         </p>
+      {/* Features Section */}
+      <section class="container mx-auto px-4 py-24 space-y-12">
+        <div class="text-center max-w-3xl mx-auto space-y-4">
+          <h2 class="text-4xl lg:text-5xl font-heading font-bold">Everything you need to ship it.</h2>
+          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-base border-2 border-border bg-chart-1 text-white font-bold shadow-sm transform rotate-1 hover:rotate-0 transition-transform cursor-default">
+            <span>🚀 The 1-Minute Challenge: From jazzy new to a secured API in less than 60 seconds.</span>
+          </div>
+        </div>
 
-         <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
-            <Button size="lg" className="text-lg h-14 px-8 w-full sm:w-auto">
-              Get Started <ArrowRight className="ml-2 w-5 h-5" />
-            </Button>
-            <Button variant="neutral" size="lg" className="text-lg h-14 px-8 w-full sm:w-auto">
-              Read the Docs
-            </Button>
-         </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <Card className="hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none transition-all">
+            <CardHeader>
+              <CardTitle>Built-in Authentication</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CardDescription className="text-base text-foreground/80">
+                Tired of writing Auth? Registration, login, and profile management ready out-of-the-box. Secure JWT included.
+              </CardDescription>
+            </CardContent>
+          </Card>
 
-         <div class="pt-8 flex items-center justify-center lg:justify-start gap-8 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
-            {/* Mock logos or indicators of tech stack */}
-            <div class="font-bold text-sm">Nim Lang</div>
-            <div class="font-bold text-sm">Native Speed</div>
-            <div class="font-bold text-sm">Async I/O</div>
-         </div>
-      </div>
+          <Card className="hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none transition-all">
+            <CardHeader>
+              <CardTitle>Automatic Data Validation</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CardDescription className="text-base text-foreground/80">
+                Secure data, clean code. Auto-validate JSON/Form requests before they even reach your controller.
+              </CardDescription>
+            </CardContent>
+          </Card>
 
-      {/* Right Column: Code Showcase */}
-      <div class="flex-1 w-full max-w-xl lg:max-w-2xl perspective-1000">
-         <div class="transform lg:rotate-y-[-5deg] lg:rotate-x-[5deg] transition-transform hover:transform-none duration-500">
-            <CodeShowcase client:load />
-         </div>
-      </div>
+          <Card className="hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none transition-all">
+            <CardHeader>
+              <CardTitle>Integrated SQLite</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CardDescription className="text-base text-foreground/80">
+                Focus on data, not config. Zero-setup SQLite support with built-in connection tools and CRUD operations.
+              </CardDescription>
+            </CardContent>
+          </Card>
 
-    </main>
+          <Card className="hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none transition-all">
+            <CardHeader>
+              <CardTitle>Scaffolding CLI</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CardDescription className="text-base text-foreground/80">
+                Your coding assistant. Run `jazzy make:controller` and let the CLI generate standard-compliant boilerplate for you.
+              </CardDescription>
+            </CardContent>
+          </Card>
+
+          <Card className="hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none transition-all">
+            <CardHeader>
+              <CardTitle>High-Performance Async</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CardDescription className="text-base text-foreground/80">
+                Security at speed. Powered by Mummy, featuring fully async middleware for CORS, Logging, and custom guards.
+              </CardDescription>
+            </CardContent>
+          </Card>
+
+          <Card className="hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none transition-all">
+            <CardHeader>
+              <CardTitle>Developer-First Errors</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CardDescription className="text-base text-foreground/80">
+                Debug without the pain. Standardized, cleaner JSON error responses that your frontend developers will love.
+              </CardDescription>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
 
 	</body>
 </html>
