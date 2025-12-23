@@ -239,7 +239,68 @@ import {
          </div>
       </section>
 
+      {/* Community / Early Alpha Section */}
+      <section class="container mx-auto px-4 pb-24">
+         <div class="max-w-4xl mx-auto border-4 border-dashed border-border/40 rounded-base p-8 lg:p-12 text-center space-y-6 bg-secondary-background/20 relative overflow-hidden">
+             
+             {/* Decorative 'Empty Slot' indicator */}
+             <div class="opacity-10 absolute inset-0 flex items-center justify-center pointer-events-none">
+                <span class="text-9xl font-black transform -rotate-12 select-none">RESERVED</span>
+             </div>
+
+             <div class="relative z-10 space-y-6">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-secondary-background border-2 border-border mb-4">
+                  <span class="text-4xl">👋</span>
+                </div>
+                 <h2 class="text-3xl lg:text-4xl font-heading font-bold">Your quote here?</h2>
+                 <p class="text-xl lg:text-2xl font-medium opacity-90 max-w-2xl mx-auto leading-relaxed">
+                    "Jazzy is in <span class="text-chart-1 font-black bg-chart-1/10 px-2 rounded">early alpha</span>. We are looking for pioneer developers to build the future of Nim web development. Build something, tell us what you think, and get featured here."
+                 </p>
+                 <div class="pt-4">
+                     <a href="https://github.com/canermastan/jazzy-framework" target="_blank">
+                        <Button size="lg" className="h-12 px-8 font-bold border-2 shadow-sm">
+                           Start Building <ArrowRight className="ml-2 w-4 h-4" />
+                        </Button>
+                     </a>
+                 </div>
+             </div>
+         </div>
+      </section>
+
     </main>
+
+    <footer class="border-t-2 border-border bg-white dark:bg-secondary-background py-16">
+       <div class="container mx-auto px-4">
+          <div class="flex flex-col lg:flex-row justify-between items-start gap-12 mb-16">
+             {/* Left: Brand */}
+             <div class="space-y-4 max-w-lg">
+                <h2 class="text-7xl lg:text-9xl font-black font-heading tracking-tighter opacity-100">
+                   JAZZY
+                </h2>
+                <p class="text-xl lg:text-2xl font-bold opacity-80">
+                   Built for speed, crafted for productivity.
+                </p>
+             </div>
+
+             {/* Right: Links */}
+             <div class="flex flex-col gap-4 text-xl lg:text-2xl font-bold text-right w-full lg:w-auto">
+                <a href="#" class="hover:bg-chart-1 hover:text-white px-2 -mx-2 transition-colors duration-200">GitHub</a>
+                <a href="#" class="hover:bg-chart-2 hover:text-white px-2 -mx-2 transition-colors duration-200">Discord</a>
+                <a href="#" class="hover:bg-chart-3 hover:text-black px-2 -mx-2 transition-colors duration-200">Documentation</a>
+                <a href="#" class="hover:bg-chart-4 hover:text-white px-2 -mx-2 transition-colors duration-200">Twitter</a>
+             </div>
+          </div>
+
+          <div class="border-t-2 border-border pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm font-mono font-bold uppercase opacity-60">
+             <div>Copyright 2025.</div>
+             <div class="flex gap-8">
+                <span>Don't just code.</span>
+                <span>Build an empire.</span>
+                <span>Just Nim.</span>
+             </div>
+          </div>
+       </div>
+    </footer>
 
 	</body>
 </html>
