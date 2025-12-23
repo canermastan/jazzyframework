@@ -5,7 +5,7 @@ import CodeShowcase from "@/components/landing/CodeShowcase"
 import AuthShowcase from "@/components/landing/AuthShowcase"
 import ValidationShowcase from "@/components/landing/ValidationShowcase"
 import DatabaseShowcase from "@/components/landing/DatabaseShowcase"
-import { ArrowRight, Terminal, Zap, Shield, CheckCircle2, Database, Bug } from "lucide-react"
+import { ArrowRight, Terminal, Zap, Shield, CheckCircle2, Database, Bug, Heart } from "lucide-react"
 import {
   Card,
   CardContent,
@@ -51,7 +51,15 @@ import {
           </div>
           Jazzy Framework
         </div>
-        <div class="flex gap-4">
+        <div class="flex items-center gap-6">
+          <a href="https://github.com/canermastan/jazzy-framework" target="_blank" class="hidden md:flex items-center gap-2 group">
+            <span class="text-sm font-bold opacity-70 group-hover:opacity-100 transition-opacity">Not just a user?</span>
+            <div class="bg-chart-1 text-white px-4 py-2 rounded-base border-2 border-border shadow-sm group-hover:translate-x-boxShadowX group-hover:translate-y-boxShadowY group-hover:shadow-none transition-all flex items-center gap-2">
+               <Heart size={18} className="fill-current animate-pulse" />
+               <span class="font-bold">Contribute</span>
+            </div>
+          </a>
+          <div class="flex gap-4 items-center">
           <a href="#" target="_blank" class="font-bold hover:underline decoration-2 underline-offset-4">Docs</a>
           <a href="https://github.com/canermastan/jazzy-framework" target="_blank" class="font-bold hover:underline decoration-2 underline-offset-4">GitHub</a>
         </div>
@@ -109,7 +117,7 @@ import {
         <div class="text-center max-w-3xl mx-auto space-y-4">
           <h2 class="text-4xl lg:text-5xl font-heading font-bold">Everything you need to ship it.</h2>
           <div class="inline-flex items-center gap-2 px-4 py-2 rounded-base border-2 border-border bg-chart-1 text-white font-bold shadow-sm transform rotate-1 hover:rotate-0 transition-transform cursor-default">
-            <span>🚀 The 1-Minute Challenge: From jazzy new to a secured API in less than 60 seconds.</span>
+            <span>🚀 The 1-Minute Challenge: From "jazzy new" to a secured API in less than 60 seconds.</span>
           </div>
         </div>
 
