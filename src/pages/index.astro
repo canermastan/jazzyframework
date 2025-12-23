@@ -2,7 +2,10 @@
 import "@/styles/global.css"
 import { Button } from "@/components/ui/button"
 import CodeShowcase from "@/components/landing/CodeShowcase"
-import { ArrowRight, Terminal, Zap } from "lucide-react"
+import AuthShowcase from "@/components/landing/AuthShowcase"
+import ValidationShowcase from "@/components/landing/ValidationShowcase"
+import DatabaseShowcase from "@/components/landing/DatabaseShowcase"
+import { ArrowRight, Terminal, Zap, Shield, CheckCircle2, Database, Bug } from "lucide-react"
 import {
   Card,
   CardContent,
@@ -112,7 +115,10 @@ import {
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <Card className="hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none transition-all">
-            <CardHeader>
+            <CardHeader className="flex flex-row items-center gap-4 space-y-0">
+              <div class="w-12 h-12 rounded-base border-2 border-border bg-chart-1 flex items-center justify-center shadow-sm text-foreground">
+                <Shield className="w-6 h-6 text-white" />
+              </div>
               <CardTitle>Built-in Authentication</CardTitle>
             </CardHeader>
             <CardContent>
@@ -123,7 +129,10 @@ import {
           </Card>
 
           <Card className="hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none transition-all">
-            <CardHeader>
+            <CardHeader className="flex flex-row items-center gap-4 space-y-0">
+               <div class="w-12 h-12 rounded-base border-2 border-border bg-chart-4 flex items-center justify-center shadow-sm text-foreground">
+                <CheckCircle2 className="w-6 h-6 text-white" />
+              </div>
               <CardTitle>Automatic Data Validation</CardTitle>
             </CardHeader>
             <CardContent>
@@ -134,7 +143,10 @@ import {
           </Card>
 
           <Card className="hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none transition-all">
-            <CardHeader>
+            <CardHeader className="flex flex-row items-center gap-4 space-y-0">
+               <div class="w-12 h-12 rounded-base border-2 border-border bg-chart-3 flex items-center justify-center shadow-sm text-foreground">
+                <Database className="w-6 h-6 text-black" />
+              </div>
               <CardTitle>Integrated SQLite</CardTitle>
             </CardHeader>
             <CardContent>
@@ -145,7 +157,10 @@ import {
           </Card>
 
           <Card className="hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none transition-all">
-            <CardHeader>
+            <CardHeader className="flex flex-row items-center gap-4 space-y-0">
+               <div class="w-12 h-12 rounded-base border-2 border-border bg-chart-2 flex items-center justify-center shadow-sm text-foreground">
+                <Terminal className="w-6 h-6 text-white" />
+              </div>
               <CardTitle>Scaffolding CLI</CardTitle>
             </CardHeader>
             <CardContent>
@@ -156,7 +171,10 @@ import {
           </Card>
 
           <Card className="hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none transition-all">
-            <CardHeader>
+            <CardHeader className="flex flex-row items-center gap-4 space-y-0">
+               <div class="w-12 h-12 rounded-base border-2 border-border bg-chart-5 flex items-center justify-center shadow-sm text-foreground">
+                <Zap className="w-6 h-6 text-white" />
+              </div>
               <CardTitle>High-Performance Async</CardTitle>
             </CardHeader>
             <CardContent>
@@ -167,7 +185,10 @@ import {
           </Card>
 
           <Card className="hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none transition-all">
-            <CardHeader>
+            <CardHeader className="flex flex-row items-center gap-4 space-y-0">
+               <div class="w-12 h-12 rounded-base border-2 border-border bg-chart-1 flex items-center justify-center shadow-sm text-foreground">
+                <Bug className="w-6 h-6 text-white" />
+              </div>
               <CardTitle>Developer-First Errors</CardTitle>
             </CardHeader>
             <CardContent>
@@ -177,7 +198,48 @@ import {
             </CardContent>
           </Card>
         </div>
+      {/* Auth Showcase Section */}
+      <section class="container mx-auto px-4 py-24 bg-secondary-background/30 rounded-base border-y-2 border-border mb-12">
+         <div class="max-w-6xl mx-auto space-y-12">
+            <div class="text-center max-w-3xl mx-auto space-y-4">
+               <h2 class="text-3xl lg:text-4xl font-heading font-bold">Authentication? It's built-in.</h2>
+               <p class="text-xl opacity-90">
+                  Secure, session-less JWT authentication built right into the core. 
+                  No external libraries needed.
+               </p>
+            </div>
+            
+            <AuthShowcase client:visible />
+         </div>
       </section>
+
+      {/* Validation Showcase Section */}
+      <section class="container mx-auto px-4 py-24 mb-24">
+         <div class="max-w-6xl mx-auto space-y-12">
+            <div class="text-center max-w-3xl mx-auto space-y-4">
+               <h2 class="text-3xl lg:text-4xl font-heading font-bold">Validation? Just define rules.</h2>
+               <p class="text-xl opacity-90">
+                  Laravel-style validation syntax. Define your rules, let Jazzy handle the rest.
+               </p>
+            </div>
+            
+            <ValidationShowcase client:visible />
+         </div>
+      {/* Database Showcase Section */}
+      <section class="container mx-auto px-4 py-24 mb-12">
+         <div class="max-w-6xl mx-auto space-y-12">
+            <div class="text-center max-w-3xl mx-auto space-y-4">
+               <h2 class="text-3xl lg:text-4xl font-heading font-bold">Database access? Fluent & Typosafe.</h2>
+               <p class="text-xl opacity-90">
+                  Zero configuration query builder. Insert, Select, Delete with ease.
+               </p>
+            </div>
+            
+            <DatabaseShowcase client:visible />
+         </div>
+      </section>
+
+    </main>
 
 	</body>
 </html>
