@@ -1,314 +1,484 @@
 ---
-import "@/styles/global.css"
-import { Button } from "@/components/ui/button"
-import CodeShowcase from "@/components/landing/CodeShowcase"
-import AuthShowcase from "@/components/landing/AuthShowcase"
-import ValidationShowcase from "@/components/landing/ValidationShowcase"
-import DatabaseShowcase from "@/components/landing/DatabaseShowcase"
-import { ArrowRight, Terminal, Zap, Shield, CheckCircle2, Database, Bug, Heart } from "lucide-react"
+import "@/styles/global.css";
+import { Button } from "@/components/ui/button";
+import CodeShowcase from "@/components/landing/CodeShowcase";
+import AuthShowcase from "@/components/landing/AuthShowcase";
+import ValidationShowcase from "@/components/landing/ValidationShowcase";
+import DatabaseShowcase from "@/components/landing/DatabaseShowcase";
+import {
+  ArrowRight,
+  Terminal,
+  Zap,
+  Shield,
+  CheckCircle2,
+  Database,
+  Bug,
+  Heart,
+} from "lucide-react";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 ---
 
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Jazzy | The Productive Web Framework for Nim</title>
-		
-		{/* SEO Meta Tags */}
-		<meta name="description" content="Jazzy is the productive web framework for Nim. Write less code, build more features with a developer-friendly, lightning-fast REST API framework designed for native speed and async I/O." />
-		<meta name="keywords" content="Nim, Web Framework, REST API, Async I/O, High Performance, Developer Friendly, Productive Framework, Jazzy" />
-		<meta name="author" content="Jazzy Framework" />
-		
-		{/* Open Graph / Facebook */}
-		<meta property="og:type" content="website" />
-		<meta property="og:url" content="https://jazzyframework.org/" />
-		<meta property="og:title" content="Jazzy | The Productive Web Framework for Nim" />
-		<meta property="og:description" content="Write Less Code, Build More Features. The developer-friendly REST API framework designed for speed." />
-		
-		{/* Twitter */}
-		<meta property="twitter:card" content="summary_large_image" />
-		<meta property="twitter:url" content="https://jazzyframework.org/" />
-		<meta property="twitter:title" content="Jazzy | The Productive Web Framework for Nim" />
-		<meta property="twitter:description" content="Developer-friendly, lightning fast, and designed for rapid development." />
-	</head>
-	<body class="bg-background text-foreground min-h-screen flex flex-col font-base overflow-x-hidden selection:bg-main selection:text-main-foreground">
-		
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Jazzy | The Productive Web Framework for Nim</title>
+
+    {/* SEO Meta Tags */}
+    <meta
+      name="description"
+      content="Jazzy is the productive web framework for Nim. Write less code, build more features with a developer-friendly, lightning-fast REST API framework designed for native speed and async I/O."
+    />
+    <meta
+      name="keywords"
+      content="Nim, Web Framework, REST API, Async I/O, High Performance, Developer Friendly, Productive Framework, Jazzy"
+    />
+    <meta name="author" content="Jazzy Framework" />
+
+    {/* Open Graph / Facebook */}
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://jazzyframework.org/" />
+    <meta
+      property="og:title"
+      content="Jazzy | The Productive Web Framework for Nim"
+    />
+    <meta
+      property="og:description"
+      content="Write Less Code, Build More Features. The developer-friendly REST API framework designed for speed."
+    />
+
+    {/* Twitter */}
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://jazzyframework.org/" />
+    <meta
+      property="twitter:title"
+      content="Jazzy | The Productive Web Framework for Nim"
+    />
+    <meta
+      property="twitter:description"
+      content="Developer-friendly, lightning fast, and designed for rapid development."
+    />
+  </head>
+  <body
+    class="bg-background text-foreground min-h-screen flex flex-col font-base overflow-x-hidden selection:bg-main selection:text-main-foreground"
+  >
     {/* Navigation */}
-    <nav class="border-b-2 border-border bg-background/80 backdrop-blur-sm sticky top-0 z-50">
-      <div class="container mx-auto px-4 h-16 flex items-center justify-between">
+    <nav
+      class="border-b-2 border-border bg-background/80 backdrop-blur-sm sticky top-0 z-50"
+    >
+      <div
+        class="container mx-auto px-4 h-16 flex items-center justify-between"
+      >
         <div class="flex items-center gap-2 font-heading text-xl font-bold">
-          <div class="bg-main text-main-foreground p-1 rounded-base border-2 border-border shadow-sm">
-             <Terminal size={20} />
+          <div
+            class="bg-main text-main-foreground p-1 rounded-base border-2 border-border shadow-sm"
+          >
+            <Terminal size={20} />
           </div>
           Jazzy Framework
         </div>
         <div class="flex items-center gap-6">
-          <a href="https://github.com/canermastan/jazzy-framework" target="_blank" class="hidden md:flex items-center gap-2 group">
-            <span class="text-sm font-bold opacity-70 group-hover:opacity-100 transition-opacity">Not just a user?</span>
-            <div class="bg-chart-1 text-white px-4 py-2 rounded-base border-2 border-border shadow-sm group-hover:translate-x-boxShadowX group-hover:translate-y-boxShadowY group-hover:shadow-none transition-all flex items-center gap-2">
-               <Heart size={18} className="fill-current animate-pulse" />
-               <span class="font-bold">Contribute</span>
+          <a
+            href="https://github.com/canermastan/jazzy-framework"
+            target="_blank"
+            class="hidden md:flex items-center gap-2 group"
+          >
+            <span
+              class="text-sm font-bold opacity-70 group-hover:opacity-100 transition-opacity"
+              >Not just a user?</span
+            >
+            <div
+              class="bg-chart-1 text-white px-4 py-2 rounded-base border-2 border-border shadow-sm group-hover:translate-x-boxShadowX group-hover:translate-y-boxShadowY group-hover:shadow-none transition-all flex items-center gap-2"
+            >
+              <Heart size={18} className="fill-current animate-pulse" />
+              <span class="font-bold">Contribute</span>
             </div>
           </a>
           <div class="flex gap-4 items-center">
-          <a href="#" target="_blank" class="font-bold hover:underline decoration-2 underline-offset-4">Docs</a>
-          <a href="https://github.com/canermastan/jazzy-framework" target="_blank" class="font-bold hover:underline decoration-2 underline-offset-4">GitHub</a>
+            <a
+              href="#"
+              target="_blank"
+              class="font-bold hover:underline decoration-2 underline-offset-4"
+              >Docs</a
+            >
+            <a
+              href="https://github.com/canermastan/jazzy-framework"
+              target="_blank"
+              class="font-bold hover:underline decoration-2 underline-offset-4"
+              >GitHub</a
+            >
+          </div>
         </div>
       </div>
     </nav>
 
     <main class="flex-1 flex flex-col gap-24">
-      
       {/* Hero Section */}
-      <section class="container mx-auto px-4 py-8 lg:py-0 flex flex-col lg:flex-row items-center gap-12 lg:gap-8 min-h-[calc(100vh-4rem)]">
+      <section
+        class="container mx-auto px-4 py-8 lg:py-0 flex flex-col lg:flex-row items-center gap-12 lg:gap-8 min-h-[calc(100vh-4rem)]"
+      >
         {/* Left Column: Text & CTA */}
         <div class="flex-1 space-y-8 text-center lg:text-left pt-8 lg:pt-0">
-           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border-2 border-border bg-chart-3 text-foreground text-sm font-bold shadow-sm transform -rotate-2 hover:rotate-0 transition-transform">
-              <Zap size={16} fill="currentColor" />
-              <span>v0.1.0 is now live!</span>
-           </div>
-           
-           <h1 class="text-5xl lg:text-7xl font-heading font-black leading-tight">
-              Write Less Code,<br />
-              <span class="text-main bg-main/10 px-2 rounded-base">Build More</span> Features.
-           </h1>
-  
-           <p class="text-xl lg:text-2xl font-medium max-w-xl mx-auto lg:mx-0 opacity-90">
-              <span class="font-black text-main">The Productive Framework.</span> 
-              Developer-friendly, lightning fast, and designed for rapid development.
-           </p>
-  
-           <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
-              <Button size="lg" className="text-lg h-14 px-8 w-full sm:w-auto">
-                Get Started <ArrowRight className="ml-2 w-5 h-5" />
-              </Button>
-              <Button variant="neutral" size="lg" className="text-lg h-14 px-8 w-full sm:w-auto">
-                Read the Docs
-              </Button>
-           </div>
-  
-           <div class="pt-8 flex items-center justify-center lg:justify-start gap-8 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
-              {/* Mock logos or indicators of tech stack */}
-              <div class="font-bold text-sm">Nim Lang</div>
-              <div class="font-bold text-sm">Native Speed</div>
-              <div class="font-bold text-sm">Async I/O</div>
-           </div>
+          <div
+            class="inline-flex items-center gap-2 px-3 py-1 rounded-full border-2 border-border bg-chart-3 text-foreground text-sm font-bold shadow-sm transform -rotate-2 hover:rotate-0 transition-transform"
+          >
+            <Zap size={16} fill="currentColor" />
+            <span>v0.1.0 is now live!</span>
+          </div>
+
+          <h1
+            class="text-5xl lg:text-7xl font-heading font-black leading-tight"
+          >
+            Write Less Code,<br />
+            <span class="text-main bg-main/10 px-2 rounded-base"
+              >Build More</span
+            > Features.
+          </h1>
+
+          <p
+            class="text-xl lg:text-2xl font-medium max-w-xl mx-auto lg:mx-0 opacity-90"
+          >
+            <span class="font-black text-main">The Productive Framework.</span>
+            Developer-friendly, lightning fast, and designed for rapid development.
+          </p>
+
+          <div
+            class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4"
+          >
+            <Button size="lg" className="text-lg h-14 px-8 w-full sm:w-auto">
+              Get Started <ArrowRight className="ml-2 w-5 h-5" />
+            </Button>
+            <Button
+              variant="neutral"
+              size="lg"
+              className="text-lg h-14 px-8 w-full sm:w-auto"
+            >
+              Read the Docs
+            </Button>
+          </div>
+
+          <div
+            class="pt-8 flex items-center justify-center lg:justify-start gap-8 opacity-60 grayscale hover:grayscale-0 transition-all duration-500"
+          >
+            {/* Mock logos or indicators of tech stack */}
+            <div class="font-bold text-sm">Nim Lang</div>
+            <div class="font-bold text-sm">Type Safe</div>
+            <div class="font-bold text-sm">Batteries Included</div>
+          </div>
         </div>
-  
+
         {/* Right Column: Code Showcase */}
         <div class="flex-1 w-full max-w-xl lg:max-w-2xl perspective-1000">
-           <div class="transform lg:rotate-y-[-5deg] lg:rotate-x-[5deg] transition-transform hover:transform-none duration-500">
-              <CodeShowcase client:load />
-           </div>
+          <div
+            class="transform lg:rotate-y-[-5deg] lg:rotate-x-[5deg] transition-transform hover:transform-none duration-500"
+          >
+            <CodeShowcase client:load />
+          </div>
         </div>
       </section>
 
-      {/* Features Section */}
+      {/* Features Grid Section */}
       <section class="container mx-auto px-4 py-24 space-y-12">
         <div class="text-center max-w-3xl mx-auto space-y-4">
-          <h2 class="text-4xl lg:text-5xl font-heading font-bold">Everything you need to ship it.</h2>
-          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-base border-2 border-border bg-chart-1 text-white font-bold shadow-sm transform rotate-1 hover:rotate-0 transition-transform cursor-default">
-            <span>🚀 The 1-Minute Challenge: From "jazzy new" to a secured API in less than 60 seconds.</span>
+          <h2 class="text-4xl lg:text-5xl font-heading font-bold">
+            Everything you need to ship it.
+          </h2>
+          <div
+            class="inline-flex items-center gap-2 px-4 py-2 rounded-base border-2 border-border bg-chart-1 text-white font-bold shadow-sm transform rotate-1 hover:rotate-0 transition-transform cursor-default"
+          >
+            <span
+              >🚀 The 1-Minute Challenge: From "jazzy new" to a secured API in
+              less than 60 seconds.</span
+            >
           </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <Card className="hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none transition-all">
+          <Card
+            className="hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none transition-all"
+          >
             <CardHeader className="flex flex-row items-center gap-4 space-y-0">
-              <div class="w-12 h-12 rounded-base border-2 border-border bg-chart-1 flex items-center justify-center shadow-sm text-foreground">
+              <div
+                class="w-12 h-12 rounded-base border-2 border-border bg-chart-1 flex items-center justify-center shadow-sm text-foreground"
+              >
                 <Shield className="w-6 h-6 text-white" />
               </div>
               <CardTitle>Built-in Authentication</CardTitle>
             </CardHeader>
             <CardContent>
               <CardDescription className="text-base text-foreground/80">
-                Tired of writing Auth? Registration, login, and profile management ready out-of-the-box. Secure JWT included.
+                Tired of writing Auth? Registration, login, and profile
+                management ready out-of-the-box. Secure JWT included.
               </CardDescription>
             </CardContent>
           </Card>
 
-          <Card className="hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none transition-all">
+          <Card
+            className="hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none transition-all"
+          >
             <CardHeader className="flex flex-row items-center gap-4 space-y-0">
-               <div class="w-12 h-12 rounded-base border-2 border-border bg-chart-4 flex items-center justify-center shadow-sm text-foreground">
+              <div
+                class="w-12 h-12 rounded-base border-2 border-border bg-chart-4 flex items-center justify-center shadow-sm text-foreground"
+              >
                 <CheckCircle2 className="w-6 h-6 text-white" />
               </div>
               <CardTitle>Automatic Data Validation</CardTitle>
             </CardHeader>
             <CardContent>
               <CardDescription className="text-base text-foreground/80">
-                Secure data, clean code. Auto-validate JSON/Form requests before they even reach your controller.
+                Secure data, clean code. Auto-validate JSON/Form requests before
+                they even reach your controller.
               </CardDescription>
             </CardContent>
           </Card>
 
-          <Card className="hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none transition-all">
+          <Card
+            className="hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none transition-all"
+          >
             <CardHeader className="flex flex-row items-center gap-4 space-y-0">
-               <div class="w-12 h-12 rounded-base border-2 border-border bg-chart-3 flex items-center justify-center shadow-sm text-foreground">
+              <div
+                class="w-12 h-12 rounded-base border-2 border-border bg-chart-3 flex items-center justify-center shadow-sm text-foreground"
+              >
                 <Database className="w-6 h-6 text-black" />
               </div>
               <CardTitle>Integrated SQLite</CardTitle>
             </CardHeader>
             <CardContent>
               <CardDescription className="text-base text-foreground/80">
-                Focus on data, not config. Zero-setup SQLite support with built-in connection tools and CRUD operations.
+                Focus on data, not config. Zero-setup SQLite support with
+                built-in connection tools and CRUD operations.
               </CardDescription>
             </CardContent>
           </Card>
 
-          <Card className="hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none transition-all">
+          <Card
+            className="hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none transition-all"
+          >
             <CardHeader className="flex flex-row items-center gap-4 space-y-0">
-               <div class="w-12 h-12 rounded-base border-2 border-border bg-chart-2 flex items-center justify-center shadow-sm text-foreground">
+              <div
+                class="w-12 h-12 rounded-base border-2 border-border bg-chart-2 flex items-center justify-center shadow-sm text-foreground"
+              >
                 <Terminal className="w-6 h-6 text-white" />
               </div>
               <CardTitle>Scaffolding CLI</CardTitle>
             </CardHeader>
             <CardContent>
               <CardDescription className="text-base text-foreground/80">
-                Your coding assistant. Run `jazzy make:controller` and let the CLI generate standard-compliant boilerplate for you.
+                Your coding assistant. Run `jazzy make:controller` and let the
+                CLI generate standard-compliant boilerplate for you.
               </CardDescription>
             </CardContent>
           </Card>
 
-          <Card className="hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none transition-all">
+          <Card
+            className="hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none transition-all"
+          >
             <CardHeader className="flex flex-row items-center gap-4 space-y-0">
-               <div class="w-12 h-12 rounded-base border-2 border-border bg-chart-5 flex items-center justify-center shadow-sm text-foreground">
+              <div
+                class="w-12 h-12 rounded-base border-2 border-border bg-chart-5 flex items-center justify-center shadow-sm text-foreground"
+              >
                 <Zap className="w-6 h-6 text-white" />
               </div>
               <CardTitle>High-Performance Async</CardTitle>
             </CardHeader>
             <CardContent>
               <CardDescription className="text-base text-foreground/80">
-                Security at speed. Powered by Mummy, featuring fully async middleware for CORS, Logging, and custom guards.
+                Security at speed. Powered by Mummy, featuring fully async
+                middleware for CORS, Logging, and custom guards.
               </CardDescription>
             </CardContent>
           </Card>
 
-          <Card className="hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none transition-all">
+          <Card
+            className="hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none transition-all"
+          >
             <CardHeader className="flex flex-row items-center gap-4 space-y-0">
-               <div class="w-12 h-12 rounded-base border-2 border-border bg-chart-1 flex items-center justify-center shadow-sm text-foreground">
+              <div
+                class="w-12 h-12 rounded-base border-2 border-border bg-chart-1 flex items-center justify-center shadow-sm text-foreground"
+              >
                 <Bug className="w-6 h-6 text-white" />
               </div>
               <CardTitle>Developer-First Errors</CardTitle>
             </CardHeader>
             <CardContent>
               <CardDescription className="text-base text-foreground/80">
-                Debug without the pain. Standardized, cleaner JSON error responses that your frontend developers will love.
+                Debug without the pain. Standardized, cleaner JSON error
+                responses that your frontend developers will love.
               </CardDescription>
             </CardContent>
           </Card>
         </div>
+      </section>
+
       {/* Auth Showcase Section */}
-      <section class="container mx-auto px-4 py-24 bg-secondary-background/30 rounded-base border-y-2 border-border mb-12">
-         <div class="max-w-6xl mx-auto space-y-12">
-            <div class="text-center max-w-3xl mx-auto space-y-4">
-               <h2 class="text-3xl lg:text-4xl font-heading font-bold">Authentication? It's built-in.</h2>
-               <p class="text-xl opacity-90">
-                  Secure, session-less JWT authentication built right into the core. 
-                  No external libraries needed.
-               </p>
-            </div>
-            
-            <AuthShowcase client:visible />
-         </div>
+      <section
+        class="container mx-auto px-4 py-24 bg-secondary-background/30 rounded-base border-y-2 border-border mb-12"
+      >
+        <div class="max-w-6xl mx-auto space-y-12">
+          <div class="text-center max-w-3xl mx-auto space-y-4">
+            <h2 class="text-3xl lg:text-4xl font-heading font-bold">
+              Authentication? It's built-in.
+            </h2>
+            <p class="text-xl opacity-90">
+              Secure, session-less JWT authentication built right into the core.
+              No external libraries needed.
+            </p>
+          </div>
+
+          <AuthShowcase client:visible />
+        </div>
       </section>
 
       {/* Validation Showcase Section */}
       <section class="container mx-auto px-4 py-24 mb-24">
-         <div class="max-w-6xl mx-auto space-y-12">
-            <div class="text-center max-w-3xl mx-auto space-y-4">
-               <h2 class="text-3xl lg:text-4xl font-heading font-bold">Validation? Just define rules.</h2>
-               <p class="text-xl opacity-90">
-                  Laravel-style validation syntax. Define your rules, let Jazzy handle the rest.
-               </p>
-            </div>
-            
-            <ValidationShowcase client:visible />
-         </div>
+        <div class="max-w-6xl mx-auto space-y-12">
+          <div class="text-center max-w-3xl mx-auto space-y-4">
+            <h2 class="text-3xl lg:text-4xl font-heading font-bold">
+              Validation? Just define rules.
+            </h2>
+            <p class="text-xl opacity-90">
+              Laravel-style validation syntax. Define your rules, let Jazzy
+              handle the rest.
+            </p>
+          </div>
+
+          <ValidationShowcase client:visible />
+        </div>
+      </section>
+
       {/* Database Showcase Section */}
       <section class="container mx-auto px-4 py-24 mb-12">
-         <div class="max-w-6xl mx-auto space-y-12">
-            <div class="text-center max-w-3xl mx-auto space-y-4">
-               <h2 class="text-3xl lg:text-4xl font-heading font-bold">Database access? Fluent & Typosafe.</h2>
-               <p class="text-xl opacity-90">
-                  Zero configuration query builder. Insert, Select, Delete with ease.
-               </p>
-            </div>
-            
-            <DatabaseShowcase client:visible />
-         </div>
+        <div class="max-w-6xl mx-auto space-y-12">
+          <div class="text-center max-w-3xl mx-auto space-y-4">
+            <h2 class="text-3xl lg:text-4xl font-heading font-bold">
+              Database access? Fluent & Typosafe.
+            </h2>
+            <p class="text-xl opacity-90">
+              Zero configuration query builder. Insert, Select, Delete with
+              ease.
+            </p>
+          </div>
+
+          <DatabaseShowcase client:visible />
+        </div>
       </section>
 
       {/* Community / Early Alpha Section */}
       <section class="container mx-auto px-4 pb-24">
-         <div class="max-w-4xl mx-auto border-4 border-dashed border-border/40 rounded-base p-8 lg:p-12 text-center space-y-6 bg-secondary-background/20 relative overflow-hidden">
-             
-             {/* Decorative 'Empty Slot' indicator */}
-             <div class="opacity-10 absolute inset-0 flex items-center justify-center pointer-events-none">
-                <span class="text-9xl font-black transform -rotate-12 select-none">RESERVED</span>
-             </div>
+        <div
+          class="max-w-4xl mx-auto border-4 border-dashed border-border/40 rounded-base p-8 lg:p-12 text-center space-y-6 bg-secondary-background/20 relative overflow-hidden"
+        >
+          {/* Decorative 'Empty Slot' indicator */}
+          <div
+            class="opacity-10 absolute inset-0 flex items-center justify-center pointer-events-none"
+          >
+            <span class="text-9xl font-black transform -rotate-12 select-none"
+              >RESERVED</span
+            >
+          </div>
 
-             <div class="relative z-10 space-y-6">
-                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-secondary-background border-2 border-border mb-4">
-                  <span class="text-4xl">👋</span>
-                </div>
-                 <h2 class="text-3xl lg:text-4xl font-heading font-bold">Your quote here?</h2>
-                 <p class="text-xl lg:text-2xl font-medium opacity-90 max-w-2xl mx-auto leading-relaxed">
-                    "Jazzy is in <span class="text-chart-1 font-black bg-chart-1/10 px-2 rounded">early alpha</span>. We are looking for pioneer developers to build the future of Nim web development. Build something, tell us what you think, and get featured here."
-                 </p>
-                 <div class="pt-4">
-                     <a href="https://github.com/canermastan/jazzy-framework" target="_blank">
-                        <Button size="lg" className="h-12 px-8 font-bold border-2 shadow-sm">
-                           Start Building <ArrowRight className="ml-2 w-4 h-4" />
-                        </Button>
-                     </a>
-                 </div>
-             </div>
-         </div>
+          <div class="relative z-10 space-y-6">
+            <div
+              class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-secondary-background border-2 border-border mb-4"
+            >
+              <span class="text-4xl">👋</span>
+            </div>
+            <h2 class="text-3xl lg:text-4xl font-heading font-bold">
+              Your quote here?
+            </h2>
+            <p
+              class="text-xl lg:text-2xl font-medium opacity-90 max-w-2xl mx-auto leading-relaxed"
+            >
+              "Jazzy is in <span
+                class="text-chart-1 font-black bg-chart-1/10 px-2 rounded"
+                >early alpha</span
+              >. We are looking for pioneer developers to build the future of
+              Nim web development. Build something, tell us what you think, and
+              get featured here."
+            </p>
+            <div class="pt-4">
+              <a
+                href="https://github.com/canermastan/jazzy-framework"
+                target="_blank"
+              >
+                <Button
+                  size="lg"
+                  className="h-12 px-8 font-bold border-2 shadow-sm"
+                >
+                  Start Building <ArrowRight className="ml-2 w-4 h-4" />
+                </Button>
+              </a>
+            </div>
+          </div>
+        </div>
       </section>
-
     </main>
 
-    <footer class="border-t-2 border-border bg-white dark:bg-secondary-background py-16">
-       <div class="container mx-auto px-4">
-          <div class="flex flex-col lg:flex-row justify-between items-start gap-12 mb-16">
-             {/* Left: Brand */}
-             <div class="space-y-4 max-w-lg">
-                <h2 class="text-7xl lg:text-9xl font-black font-heading tracking-tighter opacity-100">
-                   JAZZY
-                </h2>
-                <p class="text-xl lg:text-2xl font-bold opacity-80">
-                   Built for speed, crafted for productivity.
-                </p>
-             </div>
-
-             {/* Right: Links */}
-             <div class="flex flex-col gap-4 text-xl lg:text-2xl font-bold text-right w-full lg:w-auto">
-                <a href="#" class="hover:bg-chart-1 hover:text-white px-2 -mx-2 transition-colors duration-200">GitHub</a>
-                <a href="#" class="hover:bg-chart-2 hover:text-white px-2 -mx-2 transition-colors duration-200">Discord</a>
-                <a href="#" class="hover:bg-chart-3 hover:text-black px-2 -mx-2 transition-colors duration-200">Documentation</a>
-                <a href="#" class="hover:bg-chart-4 hover:text-white px-2 -mx-2 transition-colors duration-200">Twitter</a>
-             </div>
+    <footer
+      class="border-t-2 border-border bg-white dark:bg-secondary-background py-16"
+    >
+      <div class="container mx-auto px-4">
+        <div
+          class="flex flex-col lg:flex-row justify-between items-start gap-12 mb-16"
+        >
+          {/* Left: Brand */}
+          <div class="space-y-4 max-w-lg">
+            <h2
+              class="text-7xl lg:text-9xl font-black font-heading tracking-tighter opacity-100"
+            >
+              JAZZY
+            </h2>
+            <p class="text-xl lg:text-2xl font-bold opacity-80">
+              Built for speed, crafted for productivity.
+            </p>
           </div>
 
-          <div class="border-t-2 border-border pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm font-mono font-bold uppercase opacity-60">
-             <div>Copyright 2025.</div>
-             <div class="flex gap-8">
-                <span>Don't just code.</span>
-                <span>Build an empire.</span>
-                <span>Just Nim.</span>
-             </div>
+          {/* Right: Links */}
+          <div
+            class="flex flex-col gap-4 text-xl lg:text-2xl font-bold text-right w-full lg:w-auto"
+          >
+            <a
+              href="#"
+              class="hover:bg-chart-1 hover:text-white px-2 -mx-2 transition-colors duration-200"
+              >GitHub</a
+            >
+            <a
+              href="#"
+              class="hover:bg-chart-2 hover:text-white px-2 -mx-2 transition-colors duration-200"
+              >Discord</a
+            >
+            <a
+              href="#"
+              class="hover:bg-chart-3 hover:text-black px-2 -mx-2 transition-colors duration-200"
+              >Documentation</a
+            >
+            <a
+              href="#"
+              class="hover:bg-chart-4 hover:text-white px-2 -mx-2 transition-colors duration-200"
+              >Twitter</a
+            >
           </div>
-       </div>
+        </div>
+
+        <div
+          class="border-t-2 border-border pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm font-mono font-bold uppercase opacity-60"
+        >
+          <div>Copyright 2025.</div>
+          <div class="flex gap-8">
+            <span>Don't just code.</span>
+            <span>Build an empire.</span>
+            <span>Just Nim.</span>
+          </div>
+        </div>
+      </div>
     </footer>
-
-	</body>
+  </body>
 </html>

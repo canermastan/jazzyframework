@@ -1,0 +1,57 @@
+---
+import "@/styles/global.css";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft, Terminal } from "lucide-react";
+---
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="generator" content={Astro.generator} />
+        <title>404 - Page Not Found | Jazzy Framework</title>
+    </head>
+    <body
+        class="bg-background text-foreground min-h-screen flex flex-col font-base overflow-hidden selection:bg-main selection:text-main-foreground"
+    >
+        <nav
+            class="border-b-2 border-border bg-background/80 backdrop-blur-sm sticky top-0 z-50"
+        >
+            <div
+                class="container mx-auto px-4 h-16 flex items-center justify-between"
+            >
+                <a
+                    href="/"
+                    class="flex items-center gap-2 font-heading text-xl font-bold"
+                >
+                    <div
+                        class="bg-main text-main-foreground p-1 rounded-base border-2 border-border shadow-sm"
+                    >
+                        <Terminal size={20} />
+                    </div>
+                    Jazzy Framework
+                </a>
+            </div>
+        </nav>
+
+        <main
+            class="flex-1 flex flex-col items-center justify-center p-4 text-center space-y-8"
+        >
+            <div class="space-y-4">
+                <h1 class="text-9xl font-heading font-black text-main">404</h1>
+                <h2 class="text-3xl font-bold">Page Not Found</h2>
+                <p class="text-xl opacity-80 max-w-lg mx-auto">
+                    Oops! Looks like you've ventured into undefined territory.
+                    This route hasn't been mapped in our router yet.
+                </p>
+            </div>
+
+            <a href="/">
+                <Button size="lg" className="h-12 px-8 font-bold">
+                    <ArrowLeft className="mr-2 w-5 h-5" /> Back to Home
+                </Button>
+            </a>
+        </main>
+    </body>
+</html>
