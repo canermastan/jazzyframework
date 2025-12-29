@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://jazzyframework.org/sitemap-index.xml
+Sitemap: https://canermastan.github.io/jazzyframework/sitemap-index.xml

@@ -7,7 +7,8 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://jazzyframework.org',
+  site: 'https://canermastan.github.io',
+  base: '/jazzyframework',
   integrations: [react(), sitemap()],
 
   vite: {
