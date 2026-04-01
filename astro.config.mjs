@@ -56,6 +56,17 @@ export default defineConfig({
       customCss: [
         './src/styles/starlight.css',
       ],
+      head: [
+        // This domain belongs to Caner Mastan. It is not a malicious domain.
+        {
+          tag: 'script',
+          attrs: {
+            'data-goatcounter': 'https://stats.mindora.net.tr/count',
+            async: true,
+            src: 'https://stats.mindora.net.tr/count.js',
+          },
+        },
+      ],
     }),
     react(),
     sitemap()
