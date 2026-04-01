@@ -1,0 +1,66 @@
+/* Custom Documentation Styles to replace/augment Tailwind Typography */
+
+.docs-content h1 {
+    @apply text-4xl lg:text-5xl font-black font-heading mb-8 tracking-tight mt-2;
+}
+
+.docs-content h2 {
+    @apply text-3xl font-heading font-bold mt-12 mb-6 border-b-2 border-border/10 pb-2 scroll-m-20;
+}
+
+.docs-content h3 {
+    @apply text-2xl font-heading font-bold mt-10 mb-4 scroll-m-20;
+}
+
+.docs-content p {
+    @apply leading-8 mb-6 text-foreground/90 font-medium;
+}
+
+.docs-content ul {
+    @apply my-6 ml-6 list-disc space-y-2;
+}
+
+.docs-content ol {
+    @apply my-6 ml-6 list-decimal space-y-2;
+}
+
+.docs-content li {
+    @apply leading-relaxed pl-2;
+}
+
+.docs-content li::marker {
+    @apply text-main font-bold;
+}
+
+.docs-content a {
+    @apply text-main font-bold no-underline hover:underline;
+}
+
+.docs-content blockquote {
+    @apply border-l-4 border-main pl-4 italic my-6 bg-secondary-background/30 py-4 pr-4 rounded-r-md;
+}
+
+.docs-content pre {
+    @apply p-6 rounded-lg bg-[#282a36] border-2 border-border shadow-sm my-8 overflow-x-auto;
+}
+
+.docs-content code {
+    @apply font-mono text-sm;
+}
+
+/* Inline code style */
+.docs-content :not(pre) > code {
+    @apply relative rounded-md bg-secondary-background/50 px-[0.4rem] py-[0.2rem] border-2 border-border/20 text-foreground;
+}
+
+.docs-content table {
+    @apply w-full my-8 border-collapse border-2 border-border;
+}
+
+.docs-content th {
+    @apply border-b-2 border-border bg-secondary-background p-4 text-left font-bold;
+}
+
+.docs-content td {
+    @apply border-b border-border/50 p-4;
+}

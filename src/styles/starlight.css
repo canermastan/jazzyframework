@@ -1,0 +1,115 @@
+/* Starlight Custom Theme - Jazzy Neo-brutalism */
+/* Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+    /* --- FONTS --- */
+    --sl-font-headers: 'Space Grotesk', system-ui, sans-serif;
+    --sl-font-system: 'Inter', system-ui, sans-serif;
+
+    /* --- BRAND ORANGE (Jazzy) --- */
+    --sl-hue-orange: 28;
+    --sl-hue-accent: 28;
+
+    /* --- LIGHT MODE --- */
+    --sl-color-bg: #fdfdfc;
+    --sl-color-bg-nav: #ffffff;
+    --sl-color-bg-sidebar: #fdfdfc;
+
+    /* Text */
+    --sl-color-text: #1a1a1a;
+    --sl-color-text-accent: #D35400;
+
+    /* Accents */
+    --sl-color-accent: #FF7A05;
+    --sl-color-accent-high: #be5a00;
+    --sl-color-accent-low: #ffead1;
+
+    /* Borders */
+    --sl-color-hairline: #e5e7eb;
+    --sl-color-border: #000000;
+
+    /* Layout */
+    --sl-border-radius-large: 0px;
+    --sl-border-radius-medium: 4px;
+    --sl-border-radius-small: 2px;
+}
+
+/* --- DARK MODE (True Laravel Style) --- */
+[data-theme='dark'] {
+    /* Backgrounds: Neutral Dark Gray (No Blue/Navy tones) */
+    --sl-color-bg: #18181b;
+    /* Zinc 950 - Neutral Dark */
+    --sl-color-bg-nav: #18181b;
+    --sl-color-bg-sidebar: #18181b;
+
+    /* Text - Softer, Grayish White usually found in Laravel docs */
+    --sl-color-white: #e4e4e7;
+    /* Zinc 200 - Not pure white */
+    --sl-color-text: #a1a1aa;
+    /* Zinc 400 - Relaxed reading text */
+    --sl-color-text-accent: #fb923c;
+
+    /* Headings specific overrides */
+    --sl-color-heading: #e4e4e7;
+    /* Soft White */
+
+    /* Accents */
+    --sl-color-accent: #fb923c;
+    /* Orange 400 */
+    --sl-color-accent-high: #ffedd5;
+    --sl-color-accent-low: #2a1b0d;
+    /* Very subtle warm dark background */
+
+    /* Borders */
+    --sl-color-hairline: #27272a;
+    /* Zinc 800 */
+    --sl-color-border: #3f3f46;
+    /* Zinc 700 */
+}
+
+/* --- OVERRIDES & UTILITIES --- */
+
+/* Navbar Brand */
+.site-title {
+    font-weight: 800 !important;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    color: var(--sl-color-text) !important;
+}
+
+[data-theme='dark'] .site-title {
+    color: #e4e4e7 !important;
+}
+
+/* Headings colors explicitly for Starlight markup */
+.sl-markdown-content h1,
+.sl-markdown-content h2,
+.sl-markdown-content h3,
+.sl-markdown-content h4 {
+    color: var(--sl-color-white) !important;
+    /* Soft white/gray in dark mode */
+}
+
+.sl-markdown-content p {
+    color: var(--sl-color-text);
+    /* Softer gray */
+}
+
+/* Sidebar Active State */
+.sidebar-content a[aria-current='page'] {
+    color: var(--sl-color-text-accent);
+    background-color: var(--sl-color-accent-low);
+    border-left: 3px solid var(--sl-color-accent);
+    font-weight: 600;
+}
+
+/* Content Links */
+.content-panel a {
+    color: var(--sl-color-accent);
+    text-decoration-color: var(--sl-color-accent-low);
+}
+
+.content-panel a:hover {
+    text-decoration-thickness: 2px;
+}

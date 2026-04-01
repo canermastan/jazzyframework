@@ -1,10 +1,10 @@
 ---
-import "@/styles/global.css";
-import { Button } from "@/components/ui/button";
-import CodeShowcase from "@/components/landing/CodeShowcase";
-import AuthShowcase from "@/components/landing/AuthShowcase";
-import ValidationShowcase from "@/components/landing/ValidationShowcase";
-import DatabaseShowcase from "@/components/landing/DatabaseShowcase";
+import "../styles/global.css";
+import { Button } from "../components/ui/button";
+import CodeShowcase from "../components/landing/CodeShowcase";
+import AuthShowcase from "../components/landing/AuthShowcase";
+import ValidationShowcase from "../components/landing/ValidationShowcase";
+import DatabaseShowcase from "../components/landing/DatabaseShowcase";
 import {
   ArrowRight,
   Terminal,
@@ -21,7 +21,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "../components/ui/card";
 ---
 
 <html lang="en">
@@ -110,8 +110,7 @@ import {
           </a>
           <div class="flex gap-4 items-center">
             <a
-              href="#"
-              target="_blank"
+              href="/jazzyframework/en/"
               class="font-bold hover:underline decoration-2 underline-offset-4"
               >Docs</a
             >
@@ -137,7 +136,7 @@ import {
             class="inline-flex items-center gap-2 px-3 py-1 rounded-full border-2 border-border bg-chart-3 text-foreground text-sm font-bold shadow-sm transform -rotate-2 hover:rotate-0 transition-transform"
           >
             <Zap size={16} fill="currentColor" />
-            <span>v0.1.0 is now live!</span>
+            <span>v0.1.2 is now live!</span>
           </div>
 
           <h1
@@ -162,13 +161,15 @@ import {
             <Button size="lg" className="text-lg h-14 px-8 w-full sm:w-auto">
               Get Started <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
-            <Button
-              variant="neutral"
-              size="lg"
-              className="text-lg h-14 px-8 w-full sm:w-auto"
-            >
-              Read the Docs
-            </Button>
+            <a href="/jazzyframework/en/getting-started">
+              <Button
+                variant="neutral"
+                size="lg"
+                className="text-lg h-14 px-8 w-full sm:w-auto"
+              >
+                Read the Docs
+              </Button>
+            </a>
           </div>
 
           <div
@@ -477,7 +478,7 @@ import {
         <div
           class="border-t-2 border-border pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm font-mono font-bold uppercase opacity-60"
         >
-          <div>Copyright 2025.</div>
+          <div>Copyright 2026.</div>
           <div class="flex gap-8">
             <span>Don't just code.</span>
             <span>Build an empire.</span>
