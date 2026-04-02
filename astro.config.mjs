@@ -50,6 +50,7 @@ export default defineConfig({
           label: 'Security',
           items: [
             { label: 'Authentication', link: '/authentication/' },
+            { label: 'CORS', link: '/cors/' },
           ],
         },
       ],
