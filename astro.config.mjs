@@ -37,6 +37,7 @@ export default defineConfig({
             { label: 'Routing', link: '/routing/' },
             { label: 'Controllers', link: '/controllers/' },
             { label: 'Requests & Validation', link: '/requests/' },
+            { label: 'Client IP', link: '/client-ip/' },
             { label: 'Responses', link: '/responses/' },
             { label: 'Cache', link: '/cache/' },
           ],
