@@ -55,39 +55,34 @@ main()
 
 ## Available Column Types
 
-The `createTable` builder currently supports the following column types, mapped to SQLite data types:
+The `createTable` builder supports the following column types mapped directly to SQLite:
 
-### `.increments(name)`
-Creates an auto-incrementing integer primary key.
-- **SQLite Type:** `INTEGER PRIMARY KEY AUTOINCREMENT`
-- **Nullable:** No
+| Method | SQLite Type | Description |
+| :--- | :--- | :--- |
+| `.increments(name)` | `INTEGER` | Primary key with `AUTOINCREMENT`. |
+| `.string(name, nullable, default)` | `TEXT` | Text column. |
+| `.integer(name, nullable, default)` | `INTEGER` | Standard integer column. |
+| `.boolean(name, nullable, default)` | `INTEGER` | Stored as `1` (true) or `0` (false). |
 
-### `.string(name, nullable = false, default = "")`
-Creates a text column. 
-- **SQLite Type:** `TEXT`
-- **Note:** If a default value is provided, it is automatically wrapped in single quotes.
+### Parameters
 
-### `.integer(name, nullable = false, default = 0)`
-Creates an integer column.
-- **SQLite Type:** `INTEGER`
+- **`name`**: The name of the column in the database.
+- **`nullable`**: If `true`, the column can be empty (`NULL`). Defaults to `false`.
+- **`default`**: The value used if you don't provide one when saving data. 
+    - *Strings are automatically wrapped in quotes.*
+    - *Booleans are converted to 1 or 0.*
 
-### `.boolean(name, nullable = false, default = false)`
-Creates a boolean column (stored as an integer).
-- **SQLite Type:** `INTEGER`
-- **Default:** Automatically mapped to `1` (true) or `0` (false).
+## Table Options & Actions
 
-## Table Options
+You can further refine your table structure and finalize the creation using these methods:
 
-### `.ifNotExists(val: bool = true)`
-Determines if the `IF NOT EXISTS` clause should be added to the SQL query. Jazzy enables this by default.
+- **`.ifNotExists(val: bool)`**: Adds `IF NOT EXISTS` to the query (Default: `true`).
+- **`.execute()`**: Generates and runs the SQL statement on the current connection.
 
-## Actions
-
-### `.execute()`
-Generates the SQL statement and executes it using the active database connection.
+### Example Output
+When you call `.execute()`, Jazzy generates a standard SQL statement:
 
 ```sql
--- Example output of .execute()
 CREATE TABLE IF NOT EXISTS tasks (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   title TEXT NOT NULL,
