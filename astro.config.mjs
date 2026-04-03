@@ -38,6 +38,7 @@ export default defineConfig({
             { label: 'Controllers', link: '/controllers/' },
             { label: 'Requests & Validation', link: '/requests/' },
             { label: 'Responses', link: '/responses/' },
+            { label: 'Cache', link: '/cache/' },
           ],
         },
         {
