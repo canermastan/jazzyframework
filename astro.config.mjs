@@ -45,6 +45,7 @@ export default defineConfig({
           label: 'Database',
           items: [
             { label: 'Query Builder', link: '/database/' },
+            { label: 'Schema', link: '/schema/' },
           ],
         },
         {
