@@ -3,8 +3,6 @@ title: Cache
 description: Simple, fast, in-memory caching system bound to your request context.
 ---
 
-# Cache
-
 Jazzy includes a lightweight, built-in memory cache system. Caching frequently accessed data or expensive operations can drastically improve your application's performance.
 
 The cache is globally shared across requests but can be conveniently accessed directly from the `Context` object via `ctx.cache`.
