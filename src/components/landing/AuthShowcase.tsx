@@ -23,7 +23,7 @@ const highlightCode = (code: string) => {
 
   // Unmask strings
   strings.forEach((str, i) => {
-    highlighted = highlighted.replace(`__STR_${i}__`, `<span class="text-chart-1">$1</span>`);
+    highlighted = highlighted.replace(`__STR_${i}__`, `<span class="text-chart-1">${str}</span>`);
   });
 
   return highlighted;
@@ -35,16 +35,11 @@ const AuthShowcase = () => {
   const [password, setPassword] = useState('');
 
   const codeSnippet = `proc login*(ctx: Context) {.async.} =
-  let email = ctx.input("email")
-  let password = ctx.input("password")
+  let user = DB.table("users").where("email", ctx.input("email")).first()
 
-  let user = DB.table("users").where("email", email).first()
-
-  if user.kind != JNull and verifyPassword(password, user["password"].getStr):
-    ctx.json(%*{
-      "token": ctx.login(user),
-      "status": "Authenticated"
-    })
+  if user.kind != JNull and verifyPassword(ctx.input("password"), user["password"].getStr()):
+    let token = ctx.login(user)
+    ctx.json(%*{"token": token, "message": "Welcome!"})
   else:
     ctx.status(401).json(%*{"error": "Invalid credentials"})`;
 
@@ -55,8 +50,8 @@ const AuthShowcase = () => {
       // Step 1: Filling
       setStep(1);
       const targetEmail = "developer@jazzy.dev";
-      const targetPass ="password123";
-      
+      const targetPass = "password123";
+
       for (let i = 0; i <= targetEmail.length; i++) {
         await new Promise(r => setTimeout(r, 50));
         setEmail(targetEmail.slice(0, i));
@@ -69,18 +64,18 @@ const AuthShowcase = () => {
       // Step 2: Loading
       timeout = setTimeout(() => {
         setStep(2);
-        
+
         // Step 3: Success
         timeout = setTimeout(() => {
-            setStep(3);
+          setStep(3);
 
-            // Step 4: Reset loop
-            timeout = setTimeout(() => {
-                setStep(0);
-                setEmail('');
-                setPassword('');
-                runAnimation();
-            }, 4000);
+          // Step 4: Reset loop
+          timeout = setTimeout(() => {
+            setStep(0);
+            setEmail('');
+            setPassword('');
+            runAnimation();
+          }, 4000);
 
         }, 1500);
       }, 500);
@@ -97,70 +92,70 @@ const AuthShowcase = () => {
       {/* Left: Code Snippet */}
       <div className="flex-1 w-full relative group">
         <div className="absolute -top-3 left-4 bg-chart-2 text-white px-3 py-1 rounded-base border-border border-2 text-xs font-bold shadow-sm z-10">
-            AuthController.nim
+          AuthController.nim
         </div>
         <div className="bg-white dark:bg-black p-6 rounded-base border-2 border-border shadow-sm overflow-hidden h-full min-h-[300px] flex items-center">
-            <pre className="font-mono text-sm leading-relaxed overflow-x-auto">
-                <code dangerouslySetInnerHTML={{ __html: highlightCode(codeSnippet) }} />
-            </pre>
+          <pre className="font-mono text-sm leading-relaxed overflow-x-auto">
+            <code dangerouslySetInnerHTML={{ __html: highlightCode(codeSnippet) }} />
+          </pre>
         </div>
       </div>
 
       {/* Right: Visual Animation */}
       <div className="flex-1 w-full flex justify-center">
         <div className="w-full max-w-sm bg-background p-6 rounded-base border-2 border-border shadow-shadow relative overflow-hidden transition-all duration-500">
-            {step === 3 ? (
-                // Success State
-                <div className="flex flex-col items-center justify-center py-10 gap-4 animate-in fade-in zoom-in duration-300">
-                    <div className="w-20 h-20 bg-chart-4 rounded-full border-2 border-border flex items-center justify-center shadow-sm">
-                        <Unlock className="w-10 h-10 text-white" />
-                    </div>
-                    <div className="text-center space-y-2">
-                        <h3 className="text-xl font-heading font-black">Authenticated</h3>
-                        <div className="bg-secondary-background p-3 rounded-base border-2 border-border text-xs font-mono text-left w-full overflow-hidden">
-                            <span className="text-chart-2">token:</span> "eyJhbGciOiJIUzI1..."
-                        </div>
-                    </div>
+          {step === 3 ? (
+            // Success State
+            <div className="flex flex-col items-center justify-center py-10 gap-4 animate-in fade-in zoom-in duration-300">
+              <div className="w-20 h-20 bg-chart-4 rounded-full border-2 border-border flex items-center justify-center shadow-sm">
+                <Unlock className="w-10 h-10 text-white" />
+              </div>
+              <div className="text-center space-y-2">
+                <h3 className="text-xl font-heading font-black">Authenticated</h3>
+                <div className="bg-secondary-background p-3 rounded-base border-2 border-border text-xs font-mono text-left w-full overflow-hidden">
+                  <span className="text-chart-2">token:</span> "eyJhbGciOiJIUzI1..."
                 </div>
-            ) : (
-                // Login Form State
-                <div className="space-y-6">
-                    <div className="text-center">
-                         <div className="mx-auto w-12 h-12 bg-chart-3 rounded-full border-2 border-border flex items-center justify-center mb-2 shadow-sm">
-                            <Lock className="w-6 h-6 text-black" />
-                         </div>
-                         <h3 className="text-xl font-heading font-bold">Member Login</h3>
-                    </div>
-                    
-                    <div className="space-y-4">
-                        <div className="space-y-2">
-                            <div className="text-xs font-bold uppercase text-foreground/70">Email</div>
-                            <div className="h-10 w-full rounded-base border-2 border-border bg-white dark:bg-secondary-background px-3 py-2 text-sm flex items-center">
-                                {email}<span className={(step === 1 && email.length < 17) ? "animate-pulse border-r-2 border-black h-4 ml-0.5" : "hidden"}></span>
-                            </div>
-                        </div>
-                        <div className="space-y-2">
-                            <div className="text-xs font-bold uppercase text-foreground/70">Password</div>
-                             <div className="h-10 w-full rounded-base border-2 border-border bg-white dark:bg-secondary-background px-3 py-2 text-sm flex items-center">
-                                {password.replace(/./g, '•')}<span className={(step === 1 && email.length >= 17) ? "animate-pulse border-r-2 border-black h-4 ml-0.5" : "hidden"}></span>
-                            </div>
-                        </div>
-                    </div>
+              </div>
+            </div>
+          ) : (
+            // Login Form State
+            <div className="space-y-6">
+              <div className="text-center">
+                <div className="mx-auto w-12 h-12 bg-chart-3 rounded-full border-2 border-border flex items-center justify-center mb-2 shadow-sm">
+                  <Lock className="w-6 h-6 text-black" />
+                </div>
+                <h3 className="text-xl font-heading font-bold">Member Login</h3>
+              </div>
 
-                    <button 
-                        disabled 
-                        className="h-10 w-full bg-main text-white font-bold rounded-base border-2 border-border shadow-sm flex items-center justify-center gap-2 transition-transform active:translate-y-1"
-                    >
-                        {step === 2 ? (
-                            <>
-                                <Loader2 className="w-4 h-4 animate-spin" /> Verifying...
-                            </>
-                        ) : (
-                            "Sign In"
-                        )}
-                    </button>
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <div className="text-xs font-bold uppercase text-foreground/70">Email</div>
+                  <div className="h-10 w-full rounded-base border-2 border-border bg-white dark:bg-secondary-background px-3 py-2 text-sm flex items-center">
+                    {email}<span className={(step === 1 && email.length < 17) ? "animate-pulse border-r-2 border-black h-4 ml-0.5" : "hidden"}></span>
+                  </div>
                 </div>
-            )}
+                <div className="space-y-2">
+                  <div className="text-xs font-bold uppercase text-foreground/70">Password</div>
+                  <div className="h-10 w-full rounded-base border-2 border-border bg-white dark:bg-secondary-background px-3 py-2 text-sm flex items-center">
+                    {password.replace(/./g, '•')}<span className={(step === 1 && email.length >= 17) ? "animate-pulse border-r-2 border-black h-4 ml-0.5" : "hidden"}></span>
+                  </div>
+                </div>
+              </div>
+
+              <button
+                disabled
+                className="h-10 w-full bg-main text-white font-bold rounded-base border-2 border-border shadow-sm flex items-center justify-center gap-2 transition-transform active:translate-y-1"
+              >
+                {step === 2 ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" /> Verifying...
+                  </>
+                ) : (
+                  "Sign In"
+                )}
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>
