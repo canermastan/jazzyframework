@@ -62,7 +62,7 @@ proc initSchema*() =
 
 ## 4. Controllers and Validation
 
-Controllers handle request logic. You can use Laravel-style validation directly in your handlers:
+Controllers handle request logic. You can use expressive validation directly in your handlers:
 
 ```nim
 # controllers/todo_controller.nim

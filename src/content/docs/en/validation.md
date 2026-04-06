@@ -1,11 +1,11 @@
 ---
 title: Validation
-description: Laravel-style input validation for Jazzy APIs.
+description: Powerful and expressive input validation for Jazzy APIs.
 ---
 
 # Input Validation
 
-Jazzy includes a powerful validation engine inspired by Laravel. It allows you to define validation rules for incoming JSON data in a declarative way.
+Jazzy includes a powerful validation engine. It allows you to define validation rules for incoming JSON data in a declarative way.
 
 ## Basic Usage
 
