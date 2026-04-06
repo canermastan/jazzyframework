@@ -135,7 +135,6 @@ proc main() =
   Jazzy.serve(8080)
 
 if isMainModule:
-  loadEnv(".env")
   main()
 ```
 

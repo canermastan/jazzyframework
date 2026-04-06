@@ -12,14 +12,14 @@ const highlightCode = (code: string) => {
   let highlighted = maskedCode
     // Keywords
     .replace(/\b(proc|let|await|if|return|async)\b/g, '<span class="text-chart-3 font-bold">$1</span>')
-    // Types
-    .replace(/\b(Context|LoginCredentials)\b/g, '<span class="text-chart-4">$1</span>')
+    // Types & Constants
+    .replace(/\b(Context|LoginCredentials|DB|JNull)\b/g, '<span class="text-chart-4 font-bold">$1</span>')
     // Functions/Methods
-    .replace(/\b(login|body|attempt|json|status|generateToken)\b/g, '<span class="text-chart-2">$1</span>')
+    .replace(/\b(login|input|json|status|verifyPassword|table|where|first|getStr)\b/g, '<span class="text-chart-2">$1</span>')
     // Comments
     .replace(/(#.*)/g, '<span class="text-gray-500 italic">$1</span>')
     // Symbols
-    .replace(/(\{|\}|\(|\)|:|\.|%|\*)/g, '<span class="text-gray-400">$1</span>');
+    .replace(/(\{|\}|\(|\)|:|\.|%|\*|!|&)/g, '<span class="text-gray-400">$1</span>');
 
   // Unmask strings
   strings.forEach((str, i) => {
@@ -34,17 +34,19 @@ const AuthShowcase = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const codeSnippet = `proc login(ctx: Context) {.async.} =
-  let body = await ctx.body(LoginCredentials)
+  const codeSnippet = `proc login*(ctx: Context) {.async.} =
+  let email = ctx.input("email")
+  let password = ctx.input("password")
 
-  # Built-in Auth Helper
-  if await ctx.auth.attempt(body.email, body.password):
-    return await ctx.json(%*{
-      "token": ctx.auth.generateToken(),
+  let user = DB.table("users").where("email", email).first()
+
+  if user.kind != JNull and verifyPassword(password, user["password"].getStr):
+    ctx.json(%*{
+      "token": ctx.login(user),
       "status": "Authenticated"
     })
-
-  await ctx.status(401).json(%*{"error": "Invalid credentials"})`;
+  else:
+    ctx.status(401).json(%*{"error": "Invalid credentials"})`;
 
   useEffect(() => {
     let timeout: NodeJS.Timeout;

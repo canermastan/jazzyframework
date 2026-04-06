@@ -3,20 +3,20 @@ import { Play, Check, Loader2, RefreshCw } from "lucide-react"
 
 const codeSnippet = `
 proc get*(ctx: Context) {.async.} = 
-  let id = ctx.request.params["id"].parseInt
+  let id = ctx.param("id").parseInt
   let user = user_service.getUser(id)
   if user.isSome:
-    ctx.status(200).json(%*(user.get))
+    ctx.json(%*(user.get))
   else:
     ctx.status(404).json(%*{"error": "User not found"})
 `.trim()
 
 const shortCodeSnippet = `
 proc get*(ctx: Context) {.async.} = 
-  let id = ctx.request.params["id"].parseInt
+  let id = ctx.param("id").parseInt
   let user = user_service.getUser(id)
   if user.isSome:
-    ctx.status(200).json(%*(user.get))
+    ctx.json(%*(user.get))
 `.trim()
 
 const requestBody = {
@@ -53,7 +53,7 @@ const highlightCode = (code: string) => {
     })
     .replace(/\b(proc|let|if|else)\b/g, '<span class="text-chart-5 font-bold">$1</span>')
     .replace(/\.async\./g, '<span class="text-chart-2 font-bold">.async.</span>')
-    .replace(/\b(ctx|parseInt|isSome)\b/g, '<span class="text-chart-4">$1</span>')
+    .replace(/\b(ctx|parseInt|isSome|param)\b/g, '<span class="text-chart-4">$1</span>')
     .replace(/\b(Context)\b/g, '<span class="text-chart-3 font-bold">$1</span>')
     .replace(/%\*/g, '<span class="text-chart-1 font-bold">%*</span>')
 

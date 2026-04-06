@@ -3,8 +3,6 @@ title: Installation
 description: How to install Jazzy CLI with a single command.
 ---
 
-# Installation
-
 To start building with Jazzy, you need to install the **Jazzy CLI**. Choose the command for your operating system below to install Jazzy and automatically set up your PATH.
 
 ## Quick Install (One-Liner)
