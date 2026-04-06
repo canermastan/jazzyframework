@@ -75,7 +75,7 @@ To insert data, pass a `JsonNode` (`%*`). Returns the **ID** of the newly insert
 let newUserId = DB.table("users").insert(%*{
   "username": "caner",
   "email": "jcanermastan@gmail.com",
-  "created_at": "2023-10-27"
+  "created_at": "2025-10-27"
 })
 ```
 
@@ -101,16 +101,40 @@ DB.table("users").where("id", 5).delete()
 
 > **Warning:** Calling `delete()` without a `where` clause will wipe the table!
 
-## Advanced
+## Raw SQL
 
-### Raw SQL
-For complex queries (JOINs, Subqueries) that the query builder doesn't support, you can drop down to the underlying driver layer.
+For complex queries (JOINs, subqueries) that the Query Builder doesn't yet support, you can use the `raw()` and `rawExec()` methods.
+
+### Fetching Data (`raw`)
+
+The raw() method is used for data-returning queries (like `SELECT` or `PRAGMA`). It returns a JSON array of rows, where each row is an object that can be accessed by column names.
 
 ```nim
-import jazzy/db/database
-import tiny_sqlite
+let res = DB.raw("SELECT name, age FROM users WHERE id = ?", 1)
 
-let conn = getConn()
-for row in conn.iterate("SELECT u.name, p.title FROM users u JOIN posts p ON u.id = p.user_id"):
-  echo row[0].strVal, " wrote ", row[1].strVal
+if res.len > 0:
+  let user = res[0]
+
+  let name = user["name"].getStr() # or res[0]["name"].getStr()
+  let age = user["age"].getInt() # or res[0]["age"].getInt()
 ```
+
+**Iterating through results:**
+
+```nim
+let users = DB.raw("SELECT * FROM users")
+
+for user in users:
+  Log.info(user["name"].getStr())
+```
+
+### Executing Statements (`rawExec`)
+
+The `rawExec()` method is used for statements that modify data (`INSERT`, `UPDATE`, `DELETE`). It returns the number of affected rows.
+
+```nim
+let affected = DB.rawExec("INSERT INTO users (name, age) VALUES (?, ?)", "Charlie", 35)
+
+echo "Rows affected: ", affected
+```
+

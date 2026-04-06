@@ -41,13 +41,13 @@ You can capture dynamic segments of the URI using the `:` syntax. The captured v
 
 ```nim
 Route.get("/users/:id", proc(ctx: Context) {.async.} =
-  let userId = ctx.request.params.getOrDefault("id")
+  let userId = ctx.param("id")
   ctx.text("Showing user profile for ID: " & userId)
 )
 
 Route.get("/posts/:postId/comments/:commentId", proc(ctx: Context) {.async.} =
-  let postId = ctx.request.params.getOrDefault("postId")
-  let commentId = ctx.request.params.getOrDefault("commentId")
+  let postId = ctx.param("postId")
+  let commentId = ctx.param("commentId")
   ctx.text("Post " & postId & ", Comment " & commentId)
 )
 ```

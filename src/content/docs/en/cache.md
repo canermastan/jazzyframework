@@ -100,7 +100,7 @@ Here is a full example of a controller utilizing the cache to avoid unnecessary 
 import jazzy
 
 proc getProfile*(ctx: Context) {.async.} =
-  let userId = ctx.request.params.getOrDefault("id")
+  let userId = ctx.param("id")
   let cacheKey = "user_profile_" & userId
 
   # 1. Check if the profile is in the cache

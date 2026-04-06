@@ -1,62 +1,92 @@
 ---
-title: Requests & Validation
-description: Handling input, type-safe parsing, and validation rules.
+title: Requests
+description: Handling input, query params, headers, and file uploads.
 ---
 
-Retrieving input from users and validating it is the bread and butter of web development. Jazzy makes this painless.
+# Handling Incoming Requests
 
-## Easiest Access: `input()`
-The `input()` helper retrieves values from both query string parameters and the JSON body automatically. It unifies input access.
+Every handler in Jazzy receives a `Context` object, which provides simple ways to access incoming data from the client.
+
+## Request Input
+
+### Unified Access: `input()`
+The `input()` helper simplifies data retrieval by checking both **query string parameters** and **JSON bodies** automatically.
 
 ```nim
-proc store(ctx: Context) =
-  # Works for /store?name=Jazzy OR {"name": "Jazzy"}
-  let name = ctx.input("name")
+proc search(ctx: Context) {.async.} =
+  # Works for /search?q=query OR {"q": "query"}
+  let query = ctx.input("q")
   
   # With a default value
-  let role = ctx.input("role", "guest")
+  let page = ctx.input("page", "1")
   
-  ctx.text("Hello " & name)
+  ctx.text("Searching for: " & query & " (Page " & page & ")")
 ```
 
-## Type-Safe Body Parsing
-If you have a strict JSON structure, you can parse it directly into a type using `bodyAs`.
+### Route Parameters: `param()`
+For dynamic routes (e.g., `Route.get("/users/:id", ...)`), use the `param()` helper to retrieve values from the URL path.
+
+```nim
+proc showUser(ctx: Context) {.async.} =
+  let id = ctx.param("id")
+  ctx.text("Viewing user with ID: " & id)
+```
+
+### Type-Safe Body Parsing: `bodyAs()`
+If you want to parse the entire request body into a typed object, use `bodyAs`. This is ideal for structured API payloads.
 
 ```nim
 type UserDto = object
   username: string
   age: int
 
-proc create(ctx: Context) =
+proc create(ctx: Context) {.async.} =
   let dto = ctx.bodyAs(UserDto)
   # dto.username and dto.age are now typed values!
   echo dto.username
 ```
 
-## Validation
-Jazzy includes a powerful validation engine inspired by Laravel. It automatically validates input and returns a `422 Unprocessable Entity` response with error details if validation fails.
+---
+
+## Headers and IP
+
+### Accessing Request Headers
+You can access raw request headers directly from the `ctx.request.headers` table.
 
 ```nim
-proc register(ctx: Context) =
-  let data = ctx.validate(%*{
-    "username": "required|min:3|max:20",
-    "email":    "required|string",
-    "age":      "int|min:18"
-  })
-
-  # If we reach here, validation PASSED.
-  # 'data' contains the validated JsonNode.
-  
-  let user = DB.table("users").insert(data)
-  ctx.json(%*{"status": "success", "id": user})
+proc debugHeaders(ctx: Context) {.async.} =
+  if ctx.request.headers.hasKey("User-Agent"):
+    let ua = ctx.request.headers["User-Agent"]
+    ctx.text("Your browser is: " & ua)
 ```
 
-### Available Rules
-- `required`: The field must be present and not empty.
-- `string`, `int`, `bool`: Type checks.
-- `min:X`: Minimum length (string) or value (int).
-- `max:X`: Maximum length (string) or value (int).
-- `in:foo,bar,baz`: Value must be one of the listed options.
+### Client IP: `ip()`
+Retrieves the client's IP address. It automatically detects and respects the `X-Forwarded-For` or `X-Real-IP` headers if `TRUST_PROXY=true` is set in your `.env`.
 
-### Handling Validation Errors manually
-If you want to handle errors yourself instead of the automatic 422 response, you can wrap the call in a try/except block catching `ValidationError`.
+```nim
+proc checkIp(ctx: Context) {.async.} =
+  let ipAddress = ctx.ip()
+  ctx.text("Your IP is: " & ipAddress)
+```
+
+---
+
+## File Uploads
+
+Jazzy makes handling multi-part file uploads simple. Use the `file()` helper to retrieve uploaded files.
+
+```nim
+proc upload(ctx: Context) {.async.} =
+  let myFile = ctx.file("avatar")
+  
+  if myFile.filename.len > 0:
+    # myFile.filename: "photo.jpg"
+    # myFile.contentType: "image/jpeg"
+    # myFile.content: "raw file bytes..."
+    
+    # Save the file
+    writeFile("uploads/" & myFile.filename, myFile.content)
+    ctx.text("File uploaded successfully!")
+  else:
+    ctx.status(400).text("No file uploaded.")
+```
