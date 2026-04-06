@@ -3,8 +3,6 @@ title: Logging & Tracking
 description: Understanding Jazzy's structured logging system and request identifiers.
 ---
 
-# Logging & Request Tracking
-
 Jazzy includes a modern, structured logging system that provides clear visibility into your application's behavior and performance.
 
 ## Request ID
@@ -62,7 +60,7 @@ You can also use Jazzy's logger for your own application logic.
 ```nim
 import jazzy/core/logger
 
-info("Starting the worker process...")
-warn("User is attempting to access restricted data!")
-error("Unexpected error in calculation module")
+Log.info("Starting the worker process...")
+Log.warn("User is attempting to access restricted data!")
+Log.error("Unexpected error in calculation module")
 ```

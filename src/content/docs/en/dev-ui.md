@@ -3,8 +3,6 @@ title: Dev UI
 description: Interactive developer console for route management, database exploration, and more.
 ---
 
-# Jazzy Dev UI Console
-
 Jazzy includes a powerful, built-in developer console accessible at `/dev-ui`. It provides real-time insights into your application's state, environment, and data.
 
 ## Features
