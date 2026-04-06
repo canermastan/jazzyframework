@@ -74,6 +74,33 @@ Route.group(guard):
   Route.get("/profile", getProfile)
 ```
 
+## Basic Authentication
+Jazzy includes a `basicAuthGuard` for standard HTTP Basic Authentication. This is useful for simple internal tools or API protection.
+
+### Configuration
+Enable Basic Auth by setting the credentials in your `.env`.
+
+```env
+BASIC_AUTH_USER=admin
+BASIC_AUTH_PASSWORD=secret123
+```
+
+### Usage
+Import the `basicAuthGuard` and apply it to your routes.
+
+```nim
+import jazzy/auth/middlewares
+
+# Apply to a group of routes
+Route.group(basicAuthGuard):
+  Route.get("/admin/logs", getLogs)
+
+# Apply to a group of routes with path prefix
+Route.groupPath("/internal", basicAuthGuard):
+  Route.get("/health", healthCheck)
+  Route.get("/stats", getStats)
+```
+
 ## Accessing User Data
 In any route (especially protected ones), you can access the current user's JWT payload.
 
@@ -96,20 +123,23 @@ You can write custom middleware to enforce roles (e.g., only "admins" allowed).
 # src/middlewares/auth_middleware.nim
 import jazzy
 
-let adminOnly*: MiddlewareProc = proc(ctx: Context, next: HandlerProc) {.async.} =
-  # First, ensure they are logged in
-  if not ctx.check():
-    ctx.status(401).json(%*{"error": "Unauthorized"})
-    return
-    
-  # Check Role
-  let user = ctx.user().get()
-  if user.hasKey("role") and user["role"].getStr == "admin":
-    # User is Admin, proceed
-    await next(ctx)
-  else:
-    # User is logged in but forbidden
-    ctx.status(403).json(%*{"error": "Forbidden: Admins only"})
+let adminOnly* = Middleware(
+  name: "AdminOnly",
+  handler: proc(ctx: Context, next: HandlerProc) {.async.} =
+    # First, ensure they are logged in
+    if not ctx.check():
+      ctx.status(401).json(%*{"error": "Unauthorized"})
+      return
+      
+    # Check Role
+    let user = ctx.user().get()
+    if user.hasKey("role") and user["role"].getStr == "admin":
+      # User is Admin, proceed
+      await next(ctx)
+    else:
+      # User is logged in but forbidden
+      ctx.status(403).json(%*{"error": "Forbidden: Admins only"})
+)
 ```
 
 ### Applying RBAC

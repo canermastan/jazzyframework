@@ -1,52 +1,64 @@
 ---
 title: Installation
-description: Get up and running with Jazzy.
+description: How to install Jazzy CLI with a single command.
 ---
 
-## Meet Jazzy 🎷
-Jazzy is a productive, developer-friendly web framework for Nim. It's designed to let you write less code while building more features. If you love clean syntax and high performance, you're in the right place.
+# Installation
 
-## Server Requirements
-Jazzy runs on the **Nim** programming language. Ensure you have Nim installed:
-- Nim >= 2.0.0
+To start building with Jazzy, you need to install the **Jazzy CLI**. Choose the command for your operating system below to install Jazzy and automatically set up your PATH.
 
-## Installing Jazzy
-You can install Jazzy via Nimble, the Nim package manager:
+## Quick Install (One-Liner)
 
-```bash
-nimble install jazzy
+### Windows (PowerShell)
+Run this command in your PowerShell:
+
+```powershell
+nimble install jazzy -y; $nimbleBin = "$HOME\.nimble\bin"; if (-not ($env:Path -split ';' -contains $nimbleBin)) { [Environment]::SetEnvironmentVariable("Path", $env:Path + ";$nimbleBin", "User"); Write-Host "Jazzy installed! Please restart your terminal." }
 ```
 
-## Your First Project
-Let's spin up a "Hello World" application in seconds.
-
-### 1. Create `app.nim`
-Create a new file named `app.nim` and start the server:
-
-```nim
-import jazzy
-
-# Define a simple route handler
-proc home(ctx: Context) =
-  ctx.text("Hello Jazzy!")
-
-# Register the route
-Route.get("/", home)
-
-# Serve on port 8080
-Jazzy.serve(8080)
-```
-
-### 2. Run It
-Run your application using the Nim compiler:
+### macOS (Zsh)
+Run this command in your terminal:
 
 ```bash
+nimble install jazzy -y && echo 'export PATH=$PATH:$HOME/.nimble/bin' >> ~/.zshrc && source ~/.zshrc && echo "Jazzy installed!"
+```
+
+### Linux (Bash)
+Run this command in your terminal:
+
+```bash
+nimble install jazzy -y && echo 'export PATH=$PATH:$HOME/.nimble/bin' >> ~/.bashrc && source ~/.bashrc && echo "Jazzy installed!"
+```
+
+---
+
+## Verifying the Installation
+
+After running the command and **restarting your terminal**, verify the installation:
+
+```bash
+jazzy --version
+```
+
+If you see the Jazzy version number, you are ready to go!
+
+## Creating Your First Project
+
+Now you can use the `new` command to start a project:
+
+```bash
+jazzy new my_awesome_app
+cd my_awesome_app
 nim c -r app.nim
 ```
 
-You should see:
-```
-🎷 Jazzy is dancing on http://localhost:8080
-```
+---
 
-Open your browser and visit `http://localhost:8080`. Welcome to Jazzy!
+## Manual Installation
+
+If you prefer to do it manually:
+
+1. Install the package: `nimble install jazzy`
+2. Add Nimble's bin directory to your PATH:
+   - **Windows:** `%USERPROFILE%\.nimble\bin`
+   - **macOS/Linux:** `$HOME/.nimble/bin`

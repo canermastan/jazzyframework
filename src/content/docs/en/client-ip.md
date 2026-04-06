@@ -33,9 +33,9 @@ TRUST_PROXY=true
 
 Jazzy's IP extraction engine is modern and follows industry best practices:
 
-- **Cloudflare Native:** High-priority support for `CF-Connecting-IP`.
-- **RFC 7239 Support:** Full support for the modern `Forwarded` header standard.
+- **Cloudflare Native:** High-priority support for `CF-Connecting-IP`. Automatically detects real client IP behind Cloudflare's network.
 - **Smart Proxy Chaining:** Automatically parses `X-Forwarded-For` and skips internal/private IP ranges to find the first valid public client IP.
+- **RFC 7239 Support:** Full support for the modern `Forwarded` header standard.
 - **IPv6 Ready:** Handles IPv6 addresses including bracketed notation.
 
 > **Security Note:** If `TRUST_PROXY` is set to `false` (default), Jazzy will always return the direct socket IP address. Always ensure your server is behind a trusted proxy before enabling this setting in production.

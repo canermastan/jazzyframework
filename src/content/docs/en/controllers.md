@@ -19,7 +19,7 @@ import jazzy
 
 # Display a user profile
 proc show*(ctx: Context) {.async.} =
-  let id = ctx.request.params.getOrDefault("id")
+  let id = ctx.param("id")
   
   # Fetch user from database
   let user = DB.table("users").where("id", id).first()
