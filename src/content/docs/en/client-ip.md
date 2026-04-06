@@ -3,8 +3,6 @@ title: Client IP
 description: Securely extracting real client IP addresses.
 ---
 
-# Client IP
-
 Jazzy provides a robust and secure way to identify the real client IP address, even behind proxies, load balancers, or CDNs like Cloudflare.
 
 ## Basic Usage
