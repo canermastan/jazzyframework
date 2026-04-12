@@ -1,0 +1,22 @@
+---
+import PresentationLayout from "../../layouts/PresentationLayout.astro";
+import PresentationViewer from "../../components/presentation/PresentationViewer";
+
+export function getStaticPaths() {
+  return [
+    { params: { id: "test" } },
+    { params: { id: "hello" } },
+    // Add other static paths here if you want to pre-render them
+    // { params: { id: "marketing" } },
+  ];
+}
+
+const { id } = Astro.params;
+---
+
+<PresentationLayout title={`Presentation: ${id}`}>
+  {
+    /* Still using client:only="react" to avoid SSR issues and for reliability */
+  }
+  <PresentationViewer id={id} client:only="react" />
+</PresentationLayout>

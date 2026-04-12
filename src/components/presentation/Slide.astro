@@ -1,0 +1,14 @@
+---
+interface Props {
+  className?: string;
+  bgColor?: string;
+}
+
+const { className = "", bgColor = "bg-secondary-background" } = Astro.props;
+---
+
+<div class={`slide w-full h-screen flex flex-col items-center justify-center p-8 transition-opacity duration-300 ${bgColor} ${className}`}>
+  <div class="max-w-6xl w-full border-4 border-border shadow-shadow rounded-base p-12 bg-white relative overflow-hidden">
+    <slot />
+  </div>
+</div>
