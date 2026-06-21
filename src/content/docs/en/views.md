@@ -1,5 +1,5 @@
 ---
-title: Views & Templates
+title: Melody Templates
 description: Build fast, dynamic HTML interfaces using JazzyViews.
 ---
 
