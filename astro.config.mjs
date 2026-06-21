@@ -12,9 +12,13 @@ export default defineConfig({
   integrations: [
     starlight({
       title: 'Jazzy Framework',
-      social: {
-        github: 'https://github.com/canermastan/jazzy-framework',
-      },
+      social: [
+        {
+          label: 'GitHub',
+          icon: 'github',
+          href: 'https://github.com/canermastan/jazzy-framework',
+        },
+      ],
       defaultLocale: 'en',
       locales: {
         en: {
@@ -41,6 +45,7 @@ export default defineConfig({
             { label: 'Requests', link: '/requests/' },
             { label: 'Validation', link: '/validation/' },
             { label: 'Responses', link: '/responses/' },
+            { label: 'Melody Templates', link: '/views/' },
             { label: 'Static Files', link: '/static-files/' },
             { label: 'Cache', link: '/cache/' },
             { label: 'Client IP', link: '/client-ip/' },
