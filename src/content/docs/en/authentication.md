@@ -41,11 +41,15 @@ proc register*(ctx: Context) {.async.} =
 ### 2. Verifying Passwords (Login)
 Verify credentials and issue a JWT token.
 
+`ctx.login(user)` does two things at once:
+- **Returns the JWT token** as a string (for API clients using `Authorization: Bearer`).
+- **Sets a secure `HttpOnly` cookie** named `auth_token` (for browsers to send automatically on every subsequent request).
+
 ```nim
 import jazzy/auth/security
 
-proc login*(ctx: Context) {.async.} =
-  let email = ctx.input("email")
+proc handleLogin*(ctx: Context) {.async.} =
+  let email    = ctx.input("email")
   let password = ctx.input("password")
 
   let user = DB.table("users").where("email", email).first()
@@ -54,15 +58,50 @@ proc login*(ctx: Context) {.async.} =
     ctx.status(401).json(%*{"error": "Invalid credentials"})
     return
 
-  # Login successful - Issue Token
-  # The payload can contain anything you need (ID, Role, etc.)
+  # The payload can contain anything you need (id, role, username, etc.)
   let token = ctx.login(%*{
-    "id": user["id"],
+    "id":   user["id"],
     "role": user["role"]
   })
-    
+
   ctx.json(%*{"token": token})
 ```
+
+### Remember Me
+
+By default, `ctx.login` creates a **session login** — 1-hour JWT and a cookie that is cleared when the browser closes. Pass `remember = true` to extend both to **30 days**.
+
+`ctx.input("remember")` works with any source — a JSON body from a mobile app, an HTML form from a Melody template, or a query parameter. Jazzy checks all of them automatically.
+
+| | `remember = false` (default) | `remember = true` |
+|---|---|---|
+| **JWT lifetime** | 1 hour | 30 days |
+| **Cookie `Max-Age`** | none (session cookie) | 2592000 seconds |
+| **Expires when** | Browser closes | 30 days from login |
+| **Best for** | Shared / public computers | Personal devices |
+
+```nim
+proc handleLogin*(ctx: Context) {.async.} =
+  let email    = ctx.input("email")
+  let password = ctx.input("password")
+  # ctx.input checks JSON body, form data, and query params automatically
+  let remember = ctx.input("remember") == "true" or ctx.input("remember") == "on"
+
+  let user = DB.table("users").where("email", email).first()
+
+  if user.kind == JNull or not verifyPassword(password, user["password"].getStr):
+    ctx.status(401).json(%*{"error": "Invalid credentials"})
+    return
+
+  let token = ctx.login(%*{
+    "id":   user["id"],
+    "role": user["role"]
+  }, remember = remember)
+
+  ctx.json(%*{"token": token})
+```
+
+> **Security:** The cookie is always `HttpOnly` (no JavaScript access) and `SameSite=Lax` (CSRF protection). In production (`APP_ENV=production`) the `Secure` flag is added automatically so the cookie travels over HTTPS only.
 
 ## Protecting Routes
 Use the `guard` middleware to strictly require a valid JWT token.
@@ -111,6 +150,52 @@ proc getProfile*(ctx: Context) {.async.} =
     ctx.json(user)
   else:
     ctx.status(401).text("Who are you?")
+```
+
+## Web Authentication & SSR (Templates)
+
+Jazzy uses the same `ctx.login` for both API and SSR. Browsers send the `auth_token` cookie automatically on every page request, so no extra code is needed on the backend.
+
+On each request, Jazzy checks the `Authorization: Bearer` header first, then falls back to the `auth_token` cookie. Both paths authenticate the user identically — the `guard` middleware and `ctx.check()` work the same way regardless of how the token arrived.
+
+### Accessing the User in Templates
+
+When a user is logged in, Jazzy automatically injects the JWT payload as `$user` into every Melody template. No manual data passing needed.
+
+```html
+<!-- views/layouts/app.html -->
+<nav>
+  @if($user)
+    <span>Welcome, {{ $user.username }}!</span>
+    <form method="POST" action="/logout">
+      <button type="submit">Logout</button>
+    </form>
+  @else
+    <a href="/login">Login</a>
+    <a href="/register">Register</a>
+  @endif
+</nav>
+```
+
+You can access any field from the login payload:
+
+```html
+@if($user)
+  @if($user.role == "admin")
+    <a href="/admin/dashboard">Admin Panel</a>
+  @endif
+  <p>Your ID: {{ $user.id }}</p>
+@endif
+```
+
+### Logging Out
+
+`ctx.logout()` clears the auth state and removes the `auth_token` cookie by setting `Max-Age=0`.
+
+```nim
+proc handleLogout*(ctx: Context) {.async.} =
+  ctx.logout()
+  ctx.header("Location", "/").status(302).text("")
 ```
 
 ## Role Based Access Control (RBAC)
