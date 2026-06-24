@@ -24,8 +24,8 @@ let users = DB.table("users").get()
 
 ### Fetching a Single Row
 ```nim
-let user = DB.table("users").where("id", 1).first()
-# Returns a JsonNode (JObject) or JNull if not found
+let user = DB.table("users").where("email", "test@test.com").first()
+# Returns a JsonNode (JObject). Use .isNull() to check if not found
 ```
 
 ### Selecting Specific Columns

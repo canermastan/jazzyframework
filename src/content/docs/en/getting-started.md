@@ -76,7 +76,8 @@ proc create*(ctx: Context) {.async.} =
   })
 
   # Validation passed! 'data' is a JsonNode with validated values.
-  let title = data["title"].getStr
+  let title = data.getString("title")
+  let content = data.getString("content")
   
   # Insert into database using the Query Builder
   DB.table("todos").insert(%*{
