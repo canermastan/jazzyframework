@@ -386,52 +386,49 @@ import {
         </div>
       </section>
 
-      {/* Community / Early Alpha Section */}
+      {/* Community / Showcase Section */}
       <section class="container mx-auto px-4 pb-24">
-        <div
-          class="max-w-4xl mx-auto border-4 border-dashed border-border/40 rounded-base p-8 lg:p-12 text-center space-y-6 bg-secondary-background/20 relative overflow-hidden"
-        >
-          {/* Decorative 'Empty Slot' indicator */}
-          <div
-            class="opacity-10 absolute inset-0 flex items-center justify-center pointer-events-none"
-          >
-            <span class="text-9xl font-black transform -rotate-12 select-none"
-              >RESERVED</span
-            >
-          </div>
+        <div class="text-center max-w-3xl mx-auto space-y-4 mb-12">
+          <h2 class="text-4xl lg:text-5xl font-heading font-bold">
+            Built with Jazzy
+          </h2>
+          <p class="text-xl opacity-90">
+            See what our community is building.
+          </p>
+        </div>
 
-          <div class="relative z-10 space-y-6">
+        <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+          <a href="https://jazzy-blog.lunar2.com.tr/" target="_blank" class="block">
+            <Card className="h-full overflow-hidden hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none transition-all group cursor-pointer border-2 border-border">
+              <div class="aspect-video w-full overflow-hidden border-b-2 border-border bg-muted">
+                <img src="/jazzyframework/jazzy-blog.png" alt="Jazzy Blog Example" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              </div>
+              <CardHeader>
+                <CardTitle>Jazzy Blog</CardTitle>
+                <CardDescription className="text-base text-foreground/80 mt-2">
+                  A fully featured blog application built with Jazzy Framework, demonstrating authentication, Markdown support, and a robust admin dashboard.
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          </a>
+          
+          <div
+            class="h-full border-4 border-dashed border-border/40 rounded-base p-8 text-center flex flex-col justify-center items-center space-y-4 bg-secondary-background/20"
+          >
             <div
-              class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-secondary-background border-2 border-border mb-4"
+              class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-secondary-background border-2 border-border mb-2"
             >
-              <span class="text-4xl">👋</span>
+              <span class="text-2xl">👋</span>
             </div>
-            <h2 class="text-3xl lg:text-4xl font-heading font-bold">
-              Your quote here?
-            </h2>
-            <p
-              class="text-xl lg:text-2xl font-medium opacity-90 max-w-2xl mx-auto leading-relaxed"
-            >
-              "Jazzy is in <span
-                class="text-chart-1 font-black bg-chart-1/10 px-2 rounded"
-                >early alpha</span
-              >. We are looking for pioneer developers to build the future of
-              Nim web development. Build something, tell us what you think, and
-              get featured here."
+            <h3 class="text-2xl font-heading font-bold">Your Project Here</h3>
+            <p class="text-lg font-medium opacity-80 max-w-sm">
+              Build something awesome with Jazzy Framework and get featured here.
             </p>
-            <div class="pt-4">
-              <a
-                href="https://github.com/canermastan/jazzy-framework"
-                target="_blank"
-              >
-                <Button
-                  size="lg"
-                  className="h-12 px-8 font-bold border-2 shadow-sm"
-                >
-                  Start Building <ArrowRight className="ml-2 w-4 h-4" />
-                </Button>
-              </a>
-            </div>
+            <a href="/jazzyframework/en/getting-started">
+              <Button variant="neutral" className="mt-4 font-bold border-2 shadow-sm">
+                Start Building
+              </Button>
+            </a>
           </div>
         </div>
       </section>
