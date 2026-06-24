@@ -19,6 +19,18 @@ import HelloSlide10 from './slides/hello/Slide10';
 import HelloSlide11 from './slides/hello/Slide11';
 import HelloSlide12 from './slides/hello/Slide12';
 
+// Import slides for 'nimconf' presentation
+import NimConfSlide1 from './slides/nimconf/Slide1';
+import NimConfSlide2 from './slides/nimconf/Slide2';
+import NimConfSlide3 from './slides/nimconf/Slide3';
+import NimConfSlide4 from './slides/nimconf/Slide4';
+import NimConfSlide5 from './slides/nimconf/Slide5';
+import NimConfSlide6 from './slides/nimconf/Slide6';
+import NimConfSlide7 from './slides/nimconf/Slide7';
+
+import NimConfSlide8 from './slides/nimconf/Slide8';
+import NimConfSlide9 from './slides/nimconf/Slide9';
+
 export const PRESENTATIONS: Record<string, React.ComponentType[]> = {
   test: [TestSlide1, TestSlide2, TestSlide3],
   hello: [
@@ -35,6 +47,17 @@ export const PRESENTATIONS: Record<string, React.ComponentType[]> = {
     HelloSlide11,
     HelloSlide12
   ],
+  nimconf: [
+    NimConfSlide1,
+    NimConfSlide2,
+    NimConfSlide3,
+    NimConfSlide4,
+    NimConfSlide5,
+    NimConfSlide6,
+    NimConfSlide7,
+    NimConfSlide8,
+    NimConfSlide9
+  ]
 };
 
 export type PresentationId = keyof typeof PRESENTATIONS;
