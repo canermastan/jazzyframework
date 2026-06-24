@@ -15,7 +15,7 @@ const highlightCode = (code: string) => {
     // Types & Constants
     .replace(/\b(Context|LoginCredentials|DB|JNull)\b/g, '<span class="text-chart-4 font-bold">$1</span>')
     // Functions/Methods
-    .replace(/\b(login|input|json|status|verifyPassword|table|where|first|getStr)\b/g, '<span class="text-chart-2">$1</span>')
+    .replace(/\b(login|input|json|status|verifyPassword|table|where|first|getString|isNull)\b/g, '<span class="text-chart-2">$1</span>')
     // Comments
     .replace(/(#.*)/g, '<span class="text-gray-500 italic">$1</span>')
     // Symbols
@@ -37,7 +37,7 @@ const AuthShowcase = () => {
   const codeSnippet = `proc login*(ctx: Context) {.async.} =
   let user = DB.table("users").where("email", ctx.input("email")).first()
 
-  if user.kind != JNull and verifyPassword(ctx.input("password"), user["password"].getStr()):
+  if not user.isNull() and verifyPassword(ctx.input("password"), user.getString("password")):
     let token = ctx.login(user)
     ctx.json(%*{"token": token, "message": "Welcome!"})
   else:

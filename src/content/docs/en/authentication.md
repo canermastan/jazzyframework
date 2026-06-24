@@ -54,7 +54,7 @@ proc handleLogin*(ctx: Context) {.async.} =
 
   let user = DB.table("users").where("email", email).first()
 
-  if user.kind == JNull or not verifyPassword(password, user["password"].getStr):
+  if user.isNull() or not verifyPassword(password, user.getString("password")):
     ctx.status(401).json(%*{"error": "Invalid credentials"})
     return
 
@@ -89,7 +89,7 @@ proc handleLogin*(ctx: Context) {.async.} =
 
   let user = DB.table("users").where("email", email).first()
 
-  if user.kind == JNull or not verifyPassword(password, user["password"].getStr):
+  if user.isNull() or not verifyPassword(password, user.getString("password")):
     ctx.status(401).json(%*{"error": "Invalid credentials"})
     return
 
@@ -218,7 +218,7 @@ let adminOnly* = Middleware(
       
     # Check Role
     let user = ctx.user().get()
-    if user.hasKey("role") and user["role"].getStr == "admin":
+    if user.getString("role") == "admin":
       # User is Admin, proceed
       await next(ctx)
     else:

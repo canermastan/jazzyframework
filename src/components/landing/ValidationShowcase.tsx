@@ -15,7 +15,7 @@ const highlightCode = (code: string) => {
     // Types
     .replace(/\b(Context)\b/g, '<span class="text-chart-4">$1</span>')
     // Functions/Methods
-    .replace(/\b(createPost|validate|getStr)\b/g, '<span class="text-chart-2">$1</span>')
+    .replace(/\b(createPost|validate|getString)\b/g, '<span class="text-chart-2">$1</span>')
     // Special - validation rules
     .replace(/__STR_[0-9]+__/g, (match) => {
         // We will unmask later, but here we can check if it's the rule string
@@ -62,7 +62,7 @@ const ValidationShowcase = () => {
   const part3 = `
   
   # Logic...
-  echo data["title"].getStr`;
+  echo data.getString("title")`;
 
   useEffect(() => {
     let timeout: NodeJS.Timeout;

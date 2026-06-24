@@ -49,13 +49,13 @@ let fallback = ctx.cache.get("missing_key", "default_value")
 
 ### Retrieving JSON
 
-To safely retrieve JSON data, use the `getJson` method. If the key doesn't exist, has expired, or contains invalid JSON, it returns `JNull`.
+To safely retrieve JSON data, use the `getJson` method. If the key doesn't exist, has expired, or contains invalid JSON, it returns an empty node that can be checked with `.isNull()`.
 
 ```nim
 let retrieved = ctx.cache.getJson("user_data")
 
-if retrieved.kind == JObject:
-  echo "Welcome back, ", retrieved["name"].getStr()
+if not retrieved.isNull():
+  echo "Welcome back, ", retrieved.getString("name")
 ```
 
 You can also provide a default JSON node to be returned if the cache misses:
