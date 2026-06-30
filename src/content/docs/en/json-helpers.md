@@ -3,8 +3,6 @@ title: JSON Helpers
 description: Simple and robust utilities for working with JSON.
 ---
 
-# JSON Helpers
-
 Jazzy provides robust utility methods for `JsonNode` out of the box to make working with JSON data as simple as Laravel. 
 
 When dealing with HTTP requests and JSON data, you often need to handle missing fields, invalid types, or convert string payloads into booleans or integers safely without throwing exceptions (like `KeyError` or `JsonKindError`).

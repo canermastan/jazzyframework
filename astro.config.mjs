@@ -45,10 +45,11 @@ export default defineConfig({
             { label: 'Requests', link: '/requests/' },
             { label: 'Validation', link: '/validation/' },
             { label: 'Responses', link: '/responses/' },
+            { label: 'JSON Helpers', link: '/json-helpers/' },
             { label: 'Melody Templates', link: '/views/' },
             { label: 'Static Files', link: '/static-files/' },
-            { label: 'Cache', link: '/cache/' },
             { label: 'Client IP', link: '/client-ip/' },
+            { label: 'Cache', link: '/cache/' },
           ],
         },
         {
