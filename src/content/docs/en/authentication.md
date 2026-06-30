@@ -60,8 +60,8 @@ proc handleLogin*(ctx: Context) {.async.} =
 
   # The payload can contain anything you need (id, role, username, etc.)
   let token = ctx.login(%*{
-    "id":   user["id"],
-    "role": user["role"]
+    "id":   user.getInt("id"),
+    "role": user.getString("role")
   })
 
   ctx.json(%*{"token": token})
@@ -94,8 +94,8 @@ proc handleLogin*(ctx: Context) {.async.} =
     return
 
   let token = ctx.login(%*{
-    "id":   user["id"],
-    "role": user["role"]
+    "id":   user.getInt("id"),
+    "role": user.getString("role")
   }, remember = remember)
 
   ctx.json(%*{"token": token})
