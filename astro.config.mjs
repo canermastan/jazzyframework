@@ -70,6 +70,7 @@ export default defineConfig({
         {
           label: 'Advanced',
           items: [
+            { label: 'WebSockets', link: '/websockets/' },
             { label: 'Logging & Tracking', link: '/logging/' },
             { label: 'Dev UI', link: '/dev-ui/' },
           ],
