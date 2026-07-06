@@ -28,6 +28,18 @@ Route.get("/", proc(ctx: Context) {.async.} =
 ```
 *(This will look for `views/home.html`)*
 
+In your template (`views/home.html`), you can access these variables using the `$` prefix:
+
+```blade
+<!DOCTYPE html>
+<html>
+<body>
+  <h1>{{ $title }}</h1>
+  <p>Hello, {{ $user.name }}! Welcome back.</p>
+</body>
+</html>
+```
+
 ### Rendering Arrays
 
 If you want to pass an array (e.g., results from a database query) to a view, you have two options.
