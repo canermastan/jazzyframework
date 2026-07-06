@@ -28,6 +28,40 @@ Route.get("/", proc(ctx: Context) {.async.} =
 ```
 *(This will look for `views/home.html`)*
 
+### Rendering Arrays
+
+If you want to pass an array (e.g., results from a database query) to a view, you have two options.
+By default, if you pass an array directly, you must iterate over it using the special `$data` variable in your template. 
+However, for a better Developer Experience (DX), you can provide an explicit name for your array using the three-parameter render helper. This avoids having to wrap your array in a JSON object manually.
+
+```nim
+let dbArray = DB.table("users").get()
+
+# Option 1: Passing an array directly. (Template uses $data)
+ctx.render("users", dbArray)
+
+# Option 2: Passing an array with an explicit name. (Template uses usersList)
+ctx.render("users", "usersList", dbArray)
+```
+
+In your template (`views/users.html`):
+
+```blade
+<!-- If you used Option 1, iterate over $data -->
+<ul>
+  @foreach($data as user)
+    <li>{{ $user.name }}</li>
+  @endforeach
+</ul>
+
+<!-- If you used Option 2, iterate over the name you provided -->
+<ul>
+  @foreach(usersList as user)
+    <li>{{ $user.name }}</li>
+  @endforeach
+</ul>
+```
+
 ---
 
 ## Template Syntax
