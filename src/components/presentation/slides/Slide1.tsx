@@ -17,7 +17,7 @@ const Slide1: React.FC = () => {
         </p>
         <div className="inline-flex items-center gap-3 px-6 py-2 bg-chart-3 border-2 border-border font-black rounded-base shadow-sm -rotate-2">
            <Zap size={24} fill="currentColor" />
-           v0.3.0 is out!
+           v0.4.6 is out!
         </div>
       </div>
     </Slide>
