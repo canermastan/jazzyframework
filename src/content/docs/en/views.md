@@ -1,6 +1,6 @@
 ---
 title: Melody Templates
-description: Build fast, dynamic HTML interfaces using JazzyViews.
+description: Build fast, dynamic HTML interfaces using Melody.
 ---
 
 Jazzy includes a blazing-fast, zero-allocation template engine called **Melody**. It is heavily inspired by Laravel Blade, offering a clean, developer-friendly syntax to build dynamic HTML pages securely.
@@ -61,16 +61,16 @@ In your template (`views/users.html`):
 ```blade
 <!-- If you used Option 1, iterate over $data -->
 <ul>
-  @foreach($data as user)
+  @for user in $data
     <li>{{ $user.name }}</li>
-  @endforeach
+  @endfor
 </ul>
 
 <!-- If you used Option 2, iterate over the name you provided -->
 <ul>
-  @foreach(usersList as user)
+  @for user in usersList
     <li>{{ $user.name }}</li>
-  @endforeach
+  @endfor
 </ul>
 ```
 
@@ -94,21 +94,21 @@ If you need to render **raw HTML** (unescaped), use the `!!` syntax:
 You can conditionally render HTML based on boolean variables in your data.
 
 ```blade
-@if(success)
+@if success
   <div class="success">Operation completed!</div>
 @else
   <div class="error">Something went wrong.</div>
 @endif
 ```
 
-### Loops (`@foreach`)
+### Loops (`@for`)
 Iterate over JSON arrays easily:
 
 ```blade
 <ul>
-  @foreach(users as u)
+  @for u in users
     <li>{{ $u.name }} ({{ $u.email }})</li>
-  @endforeach
+  @endfor
 </ul>
 ```
 
@@ -126,17 +126,17 @@ Create a master layout, typically in `views/layouts/main.html`. Use `@yield` to 
 <!DOCTYPE html>
 <html>
 <head>
-  <title>@yield("title") - Jazzy App</title>
+  <title>@yield "title" - Jazzy App</title>
 </head>
 <body>
   
-  @include("partials/navbar")
+  @include "partials/navbar"
 
   <main>
-    @yield("content")
+    @yield "content"
   </main>
 
-  @include("partials/footer")
+  @include "partials/footer"
 
 </body>
 </html>
@@ -158,13 +158,13 @@ Child pages use `@extends` to declare their parent layout, and `@section` to def
 
 ```blade
 <!-- views/home.html -->
-@extends("layouts/main")
+@extends "layouts/main"
 
-@section("title")
+@section "title"
   Homepage
 @endsection
 
-@section("content")
+@section "content"
   <h1>Welcome!</h1>
   <p>This content is injected into the main layout.</p>
 @endsection
@@ -193,7 +193,7 @@ proc submitContact(ctx: Context) {.async.} =
 
 **Template (`views/contact.html`):**
 ```blade
-@if(error)
+@if error
   <p style="color: red">{{ $error }}</p>
 @endif
 
@@ -215,3 +215,16 @@ It also features an automatic **Two-Tier Cache System**:
 2. **Production Mode:** 
    - **Tier-1 (File Cache):** Templates are stored in memory. The engine monitors file `mtime` and automatically invalidates the cache if the file changes.
    - **Tier-2 (Render Cache):** You can use `ctx.renderCached("page", data, ttl=3600)` to cache the final, compiled HTML output for extreme performance on pages that rarely change.
+
+---
+
+## Legacy Syntax (Deprecated)
+
+Older versions of Melody required parentheses and a different loop syntax. While these are still supported for backward compatibility, they will emit a runtime warning in the console and should be migrated to the new Nim-style syntax:
+
+- `@if(condition)` ➔ Use `@if condition`
+- `@foreach(list as item)` ➔ Use `@for item in list`
+- `@extends("layout")` ➔ Use `@extends "layout"`
+- `@yield("section")` ➔ Use `@yield "section"`
+- `@section("section")` ➔ Use `@section "section"`
+- `@include("partial")` ➔ Use `@include "partial"`
