@@ -142,7 +142,7 @@ import {
             class="inline-flex items-center gap-2 px-3 py-1 rounded-full border-2 border-border bg-chart-3 text-foreground text-sm font-bold shadow-sm transform -rotate-2 hover:rotate-0 transition-transform"
           >
             <Zap size={16} fill="currentColor" />
-            <span>v0.4.6 is now live!</span>
+            <span id="latest-version-badge">v0.4.6 is now live!</span>
           </div>
 
           <h1
@@ -492,5 +492,20 @@ import {
         </div>
       </div>
     </footer>
+
+    <script>
+      fetch("https://api.github.com/repos/canermastan/jazzy-framework/tags")
+        .then(res => res.json())
+        .then(data => {
+          if (Array.isArray(data) && data.length > 0) {
+            const latestTag = data[0].name;
+            const badge = document.getElementById("latest-version-badge");
+            if (badge) {
+              badge.innerText = latestTag + " is now live!";
+            }
+          }
+        })
+        .catch(err => console.error("Failed to fetch latest tag:", err));
+    </script>
   </body>
 </html>
