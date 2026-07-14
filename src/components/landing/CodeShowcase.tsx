@@ -2,21 +2,25 @@ import { useState, useEffect } from "react"
 import { Play, Check, Loader2, RefreshCw } from "lucide-react"
 
 const codeSnippet = `
-proc get*(ctx: Context) {.async.} = 
-  let id = ctx.param("id").parseInt
-  let user = user_service.getUser(id)
-  if user.isSome:
-    ctx.json(%*(user.get))
-  else:
-    ctx.status(404).json(%*{"error": "User not found"})
+proc show*(ctx: Context) {.async.} =
+  let id = ctx.param("id")
+
+  # Fetch user from database
+  let user = DB.table("users").where("id", id).first()
+
+  ctx.json(%*{
+    "id": id,
+    "user": user,
+    "role": "member"
+  })
 `.trim()
 
 const shortCodeSnippet = `
-proc get*(ctx: Context) {.async.} = 
-  let id = ctx.param("id").parseInt
-  let user = user_service.getUser(id)
-  if user.isSome:
-    ctx.json(%*(user.get))
+proc show*(ctx: Context) {.async.} =
+  let id = ctx.param("id")
+  let user = DB.table("users").where("id", id).first()
+
+  ctx.json(%*{"id": id, "user": user, "role": "member"})
 `.trim()
 
 const requestBody = {
@@ -31,9 +35,11 @@ const responseBody = {
   status: 200,
   data: {
     id: "123",
-    name: "Nim Lang Lover",
-    role: "admin",
-    status: "legend"
+    user: {
+      name: "Nim Lang Lover",
+      status: "legend"
+    },
+    role: "member"
   }
 }
 
@@ -53,9 +59,10 @@ const highlightCode = (code: string) => {
     })
     .replace(/\b(proc|let|if|else)\b/g, '<span class="text-chart-5 font-bold">$1</span>')
     .replace(/\.async\./g, '<span class="text-chart-2 font-bold">.async.</span>')
-    .replace(/\b(ctx|parseInt|isSome|param)\b/g, '<span class="text-chart-4">$1</span>')
-    .replace(/\b(Context)\b/g, '<span class="text-chart-3 font-bold">$1</span>')
+    .replace(/\b(ctx|param|table|where|first|json)\b/g, '<span class="text-chart-4">$1</span>')
+    .replace(/\b(Context|DB)\b/g, '<span class="text-chart-3 font-bold">$1</span>')
     .replace(/%\*/g, '<span class="text-chart-1 font-bold">%*</span>')
+    .replace(/(#.*)/g, '<span class="text-foreground/50 italic">$1</span>')
 
   // 3. Unmask strings and apply string color
   return highlighted.replace(/__STR_(\d+)__/g, (_, index) => {
