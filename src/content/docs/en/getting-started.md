@@ -27,14 +27,27 @@ This creates a project structure with `app.nim`, `router.nim`, `schema.nim`, a `
 Your project includes a `.env` file for environment-specific configuration. Here are the key variables:
 
 ```env
-APP_ENV=development      # development or release
-LOG_LEVEL=info           # debug, info, warn, error, none
-TRUST_PROXY=false        # set to true if running behind Nginx/Proxy
-BODY_LIMIT_MB=10         # global request body size limit
+APP_ENV=development
+LOG_LEVEL=debug
+DEV_UI_ENABLED=true # Development only; ignored in production
+CSRF_ENABLED=false  # enable for browser forms that use auth_token cookies
+JWT_SECRET=<generated-random-secret>
+```
 
-JWT_SECRET=your_secret   # if you use guard for JWT auth
-# BASIC_AUTH_USER=admin    # if you use basicAuthGuard
-# BASIC_AUTH_PASSWORD=pass # if you use basicAuthGuard
+`jazzy new` generates a cryptographically random `JWT_SECRET` for you. Keep
+that value private and use a different secure value in your production
+environment. See [Authentication](/authentication/) for cookie authentication
+and CSRF-protected forms.
+
+CSRF is disabled in a newly generated project to keep JSON and Bearer-token
+APIs frictionless. Enable it when you build browser forms that authenticate
+through Jazzy's cookie-based session flow.
+
+You can add further settings when needed:
+
+```env
+TRUST_PROXY=false   # set true behind a trusted reverse proxy
+BODY_LIMIT_MB=10    # global request body size limit
 ```
 
 ## 3. Database Schema (schema.nim)
@@ -147,4 +160,6 @@ Simply run your `app.nim`:
 nim c -r app.nim
 ```
 
-Your API is now running on `http://localhost:8080`. You can access the **Dev UI** at `http://localhost:8080/dev-ui` to inspect routes, database tables, and system logs.
+Your API is now running on `http://localhost:8080`. Because generated projects
+set `DEV_UI_ENABLED=true` for development, you can access the **Dev UI** at
+`http://localhost:8080/dev-ui`. Never enable it on a public deployment.

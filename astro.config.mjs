@@ -62,6 +62,7 @@ export default defineConfig({
         {
           label: 'Security',
           items: [
+            { label: 'Security Guide', link: '/security/' },
             { label: 'Authentication', link: '/authentication/' },
             { label: 'CORS', link: '/cors/' },
             { label: 'Rate Limiting', link: '/rate-limiting/' },

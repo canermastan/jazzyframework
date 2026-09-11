@@ -184,11 +184,15 @@ proc submitContact(ctx: Context) {.async.} =
   if name.len == 0:
     ctx.render("contact", %*{
       "error": "Name is required",
-      "old": {"name": name}
+      "old": {"name": name},
+      "csrf": ctx.csrfToken()
     })
     return
     
-  ctx.render("contact", %*{"success": true})
+  ctx.render("contact", %*{
+    "success": true,
+    "csrf": ctx.csrfToken()
+  })
 ```
 
 **Template (`views/contact.html`):**
@@ -198,10 +202,21 @@ proc submitContact(ctx: Context) {.async.} =
 @endif
 
 <form method="POST" action="/contact">
+  <input type="hidden" name="_csrf" value="{{ $csrf }}">
   <input type="text" name="name" value="{{ $old.name }}">
   <button type="submit">Send</button>
 </form>
 ```
+
+:::caution[Cookie-authenticated forms need CSRF]
+New projects start with `CSRF_ENABLED=false` to keep JSON and Bearer-token APIs
+frictionless. If this form belongs to a browser application that uses the
+`auth_token` cookie, add `CSRF_ENABLED=true` to `.env` and include this hidden
+field on every unsafe form.
+:::
+
+See [Authentication](/authentication/#csrf-protection-for-browser-sessions)
+for the complete browser-session flow.
 
 ---
 

@@ -5,7 +5,8 @@ description: Built-in JWT Authentication and Security.
 
 # Security & Authentication
 
-Jazzy comes batteries-included with JWT authentication and secure password hashing.
+Jazzy includes JWT authentication and password-hashing primitives. Read the
+[Security Guide](/security/) before deploying an authentication flow.
 
 ## Configuration
 Set your secret key in `.env`.
@@ -23,10 +24,10 @@ import jazzy
 import jazzy/auth/security
 
 proc register*(ctx: Context) {.async.} =
-  let email = ctx.input("email")
-  let plainPassword = ctx.input("password")
+  let email = ctx.bodyInput("email")
+  let plainPassword = ctx.bodyInput("password")
   
-  # Securely hash the password (using Salt + PBKDF2/HMAC)
+  # Securely hash the password (salted PBKDF2-HMAC-SHA256)
   let hashed = hashPassword(plainPassword)
   
   let newId = DB.table("users").insert(%*{
@@ -49,8 +50,8 @@ Verify credentials and issue a JWT token.
 import jazzy/auth/security
 
 proc handleLogin*(ctx: Context) {.async.} =
-  let email    = ctx.input("email")
-  let password = ctx.input("password")
+  let email    = ctx.bodyInput("email")
+  let password = ctx.bodyInput("password")
 
   let user = DB.table("users").where("email", email).first()
 
@@ -58,7 +59,7 @@ proc handleLogin*(ctx: Context) {.async.} =
     ctx.status(401).json(%*{"error": "Invalid credentials"})
     return
 
-  # The payload can contain anything you need (id, role, username, etc.)
+  # Allowlist only fields that are safe to expose in a signed, readable JWT.
   let token = ctx.login(%*{
     "id":   user.getInt("id"),
     "role": user.getString("role")
@@ -82,9 +83,9 @@ By default, `ctx.login` creates a **session login** — 1-hour JWT and a cookie 
 
 ```nim
 proc handleLogin*(ctx: Context) {.async.} =
-  let email    = ctx.input("email")
-  let password = ctx.input("password")
-  # ctx.input checks JSON body, form data, and query params automatically
+  let email    = ctx.bodyInput("email")
+  let password = ctx.bodyInput("password")
+  # bodyInput checks JSON and form data, but never the query string.
   let remember = ctx.input("remember") == "true" or ctx.input("remember") == "on"
 
   let user = DB.table("users").where("email", email).first()
@@ -101,7 +102,68 @@ proc handleLogin*(ctx: Context) {.async.} =
   ctx.json(%*{"token": token})
 ```
 
-> **Security:** The cookie is always `HttpOnly` (no JavaScript access) and `SameSite=Lax` (CSRF protection). In production (`APP_ENV=production`) the `Secure` flag is added automatically so the cookie travels over HTTPS only.
+> **Security:** The cookie is always `HttpOnly` (no JavaScript access) and `SameSite=Lax` (cross-site request mitigation). In production (`APP_ENV=production`) the `Secure` flag is added automatically so the cookie travels over HTTPS only. Enable `CSRF_ENABLED=true` for full CSRF protection of browser sessions.
+
+## CSRF Protection for Browser Sessions
+
+Jazzy generates `CSRF_ENABLED=false` to keep JSON and Bearer-token APIs
+frictionless. Before using browser forms with the `auth_token` cookie, set this
+in your `.env`:
+
+```env
+CSRF_ENABLED=true
+```
+
+Jazzy then automatically enables double-submit CSRF
+protection for unsafe requests authenticated with the `auth_token` cookie.
+Safe requests issue a readable `csrf_token` cookie; submit the same value in a
+hidden `_csrf` field or the `X-CSRF-Token` header. The authentication cookie
+remains `HttpOnly` and is never exposed to JavaScript.
+
+### HTML Forms
+
+Pass a token while rendering the form:
+
+```nim
+proc showSettings(ctx: Context) {.async.} =
+  ctx.render("settings", %*{
+    "csrf": ctx.csrfToken()
+  })
+```
+
+Then include it in the template:
+
+```html
+<form method="POST" action="/settings">
+  <input type="hidden" name="_csrf" value="{{ $csrf }}">
+  <input name="display_name">
+  <button type="submit">Save settings</button>
+</form>
+```
+
+### Fetch or XMLHttpRequest
+
+Read the **`csrf_token`** cookie (not `auth_token`) and send it as a header:
+
+```js
+const csrfToken = document.cookie
+  .split('; ')
+  .find((row) => row.startsWith('csrf_token='))
+  ?.split('=')[1];
+
+await fetch('/settings', {
+  method: 'PATCH',
+  headers: {
+    'Content-Type': 'application/json',
+    'X-CSRF-Token': csrfToken,
+  },
+  body: JSON.stringify({ display_name: 'Ada' }),
+});
+```
+
+Requests that use only a Bearer token and do not carry browser auth cookies are
+not subject to CSRF validation. See [Configuration](/configuration/) for the
+compatibility migration path and when to disable CSRF.
 
 ## Protecting Routes
 Use the `guard` middleware to strictly require a valid JWT token.

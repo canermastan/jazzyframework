@@ -13,7 +13,7 @@ Jazzy is designed to help you write less code while building more features. It c
 
 - **Dev UI Console:** Interactive dashboard and SQL explorer.
 - **Modern IP Engine:** Securely identify users behind proxies and Cloudflare.
-- **Robust Security:** JWT, Basic Auth, and secure password hashing.
+- **Security Primitives:** JWT, Basic Auth, password hashing, CSRF, and middleware.
 - **Built-in Middleware:** Rate limiting, body limits, and static files.
 - **Structured Logging:** Automated request tracking with unique IDs.
 - **Performance:** Asynchronous I/O with native Nim speed.

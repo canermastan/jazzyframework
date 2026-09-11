@@ -24,7 +24,8 @@ A `Context` object contains several key components:
 ### Basic Helpers
 - `ctx.ip()`: Automatically detects and returns the client's IP address (respects `TRUST_PROXY`).
 - `ctx.param(key)`: Retrieves dynamic route parameters (e.g., `/users/:id`).
-- `ctx.input(key)`: Retrieves data from query strings or JSON bodies automatically.
+- `ctx.input(key)`: Retrieves ordinary data from query strings, JSON, or forms.
+- `ctx.bodyInput(key)`: Retrieves JSON or form-body data only; use it for credentials.
 - `ctx.header(key)`: (Response) Sets a response header.
 - `ctx.status(code)`: (Response) Sets the HTTP status code.
 

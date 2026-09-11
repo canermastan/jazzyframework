@@ -32,8 +32,8 @@ proc show*(ctx: Context) {.async.} =
 
 # Create a new user
 proc create*(ctx: Context) {.async.} =
-  let email = ctx.input("email")
-  let password = ctx.input("password")
+  let email = ctx.bodyInput("email")
+  let password = ctx.bodyInput("password")
   
   # Hash the password
   let hashedPassword = hashPassword(password)
@@ -112,8 +112,8 @@ To keep controllers thin, move business logic to Services.
 import ../services/auth_service
 
 proc login*(ctx: Context) {.async.} =
-  let email = ctx.input("email")
-  let password = ctx.input("password")
+  let email = ctx.bodyInput("email")
+  let password = ctx.bodyInput("password")
   
   # Delegate complex logic to service
   let token = auth_service.attemptLogin(email, password)

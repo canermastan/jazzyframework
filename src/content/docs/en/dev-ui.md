@@ -30,15 +30,20 @@ View all active keys in `AppCache` and clear them with a single click.
 
 ## Security
 
-Jazzy takes security seriously. The Dev UI is designed **exclusively for development**.
+The Dev UI is designed **exclusively for local development**. It can inspect
+application data and execute SQL, so it is explicit opt-in rather than an
+automatic development feature.
 
-- **Auto-Disabled in Production:** If `APP_ENV` is set to `production` in your `.env`, the `/dev-ui` route is completely disabled and will return `404`.
-- **Automatic Registration:** You don't need to import or configure anything. Calling `Jazzy.serve()` will automatically register the Dev UI if the app is in development mode.
+- **Disabled by default:** The route is not registered until both settings below are present.
+- **Never available in production:** If `APP_ENV` is anything other than `development`, the `/dev-ui` route is not registered even if `DEV_UI_ENABLED=true`.
 
 ```env
 # .env
-APP_ENV=development # Enables Dev UI
+APP_ENV=development
+DEV_UI_ENABLED=true
 ```
+
+Do not set `DEV_UI_ENABLED=true` in a public deployment.
 
 ## Accessing
 
