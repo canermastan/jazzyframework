@@ -3,8 +3,6 @@ title: Security Guide
 description: Secure configuration, authentication boundaries, and production deployment for Jazzy applications.
 ---
 
-# Security Guide
-
 Jazzy provides security primitives, not a blanket guarantee that every
 application is secure. A production application still needs correct
 authorization rules, HTTPS, secure secret management, and review of its own

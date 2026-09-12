@@ -3,8 +3,6 @@ title: Authentication
 description: Built-in JWT Authentication and Security.
 ---
 
-# Security & Authentication
-
 Jazzy includes JWT authentication and password-hashing primitives. Read the
 [Security Guide](/security/) before deploying an authentication flow.
 
