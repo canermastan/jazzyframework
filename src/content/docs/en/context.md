@@ -13,7 +13,7 @@ A `Context` object contains several key components:
 
 - **`request`**: Access incoming data (headers, body, query params, etc.).
 - **`response`**: Control the outgoing response (status, body, headers).
-- **`auth`**: Manage user authentication and sessions.
+- **`auth`**: Manage user authentication, stateless JWTs, and refresh tokens.
 - **`cache`**: Direct access to the application-level cache.
 - **`requestId`**: A unique ID generated for every request (useful for logging).
 

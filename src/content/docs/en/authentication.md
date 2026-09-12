@@ -88,6 +88,8 @@ proc handleLogin*(ctx: Context) {.async.} =
   # bodyInput checks JSON and form data, but never the query string.
   let remember = ctx.input("remember") == "true" or ctx.input("remember") == "on"
 
+  let remember = ctx.input("remember") == "true" or ctx.input("remember") == "on"
+
   let user = DB.table("users").where("email", email).first()
 
   if user.isNull() or not verifyPassword(password, user.getString("password")):
@@ -99,6 +101,55 @@ proc handleLogin*(ctx: Context) {.async.} =
     "role": user.getString("role")
   }, remember = remember)
 
+  ctx.json(%*{"token": token})
+```
+
+### Choosing Your Auth Strategy
+
+Jazzy gives you two ways to log users in. Choose based on your app's needs:
+
+1. **`ctx.login` (Stateless & Fast):** Produces a standalone JWT. It requires **zero database queries** to validate subsequent requests. Perfect for simple APIs, B2B dashboards, or internal tools where a 1-hour session is enough and you want maximum performance with minimal code.
+2. **`ctx.loginWithRefresh` (Stateful & Secure):** Produces a short-lived JWT and a long-lived Refresh Token. You must store and validate the refresh token in your database. Perfect for consumer apps (like social media or e-commerce) where you want users to stay logged in for months ("Remember Me"), but still want the ability to revoke stolen sessions instantly.
+
+### Refresh Tokens (Recommended for long sessions)
+
+Using `remember = true` with standard `ctx.login` creates a long-lived JWT, which can be risky if stolen since it cannot be revoked before it expires. For a more secure approach, use the persistent Refresh Token flow.
+
+Instead of issuing a long-lived JWT, `ctx.loginWithRefresh` issues a short-lived JWT (e.g. 15 minutes) and a long-lived refresh token cookie (e.g. 30 days). When the short-lived JWT expires, your application can check the refresh token against your database and issue a new JWT.
+
+```nim
+proc handleLogin*(ctx: Context) {.async.} =
+  let email = ctx.bodyInput("email")
+  # ... verify user ...
+
+  # Generate a secure random string for the refresh token and save it to your DB
+  let refreshToken = generateSecureRandomString()
+  DB.table("refresh_tokens").insert(%*{"user_id": user.getInt("id"), "token": refreshToken})
+
+  # loginWithRefresh issues a 15-minute JWT and a 30-day refresh_token cookie
+  let token = ctx.loginWithRefresh(%*{
+    "id": user.getInt("id")
+  }, refreshToken)
+
+  ctx.json(%*{"token": token})
+
+proc handleRefresh*(ctx: Context) {.async.} =
+  let storedToken = ctx.getRefreshToken()
+  if storedToken.len == 0:
+    ctx.status(401).json(%*{"error": "No refresh token"})
+    return
+    
+  # Validate storedToken against your database
+  let record = DB.table("refresh_tokens").where("token", storedToken).first()
+  if record.isNull():
+    ctx.status(401).json(%*{"error": "Invalid refresh token"})
+    return
+    
+  # Issue new tokens
+  let newRefreshToken = generateSecureRandomString()
+  # Update DB record with newRefreshToken ...
+  
+  let token = ctx.loginWithRefresh(%*{"id": record.getInt("user_id")}, newRefreshToken)
   ctx.json(%*{"token": token})
 ```
 
@@ -122,20 +173,13 @@ remains `HttpOnly` and is never exposed to JavaScript.
 
 ### HTML Forms
 
-Pass a token while rendering the form:
+When `CSRF_ENABLED=true`, Jazzy automatically injects the `$csrf_token` variable into all Melody templates. You do not need to pass it manually in `ctx.render()`.
 
-```nim
-proc showSettings(ctx: Context) {.async.} =
-  ctx.render("settings", %*{
-    "csrf": ctx.csrfToken()
-  })
-```
-
-Then include it in the template:
+Just include it in your template:
 
 ```html
 <form method="POST" action="/settings">
-  <input type="hidden" name="_csrf" value="{{ $csrf }}">
+  <input type="hidden" name="_csrf" value="{{ $csrf_token }}">
   <input name="display_name">
   <button type="submit">Save settings</button>
 </form>
