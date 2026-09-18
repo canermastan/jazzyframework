@@ -275,6 +275,45 @@ let deleted = await DB.table("posts").where("id", 42).delete()
 Always add a `where()` clause unless intentionally changing every row in the
 table.
 
+## Transactions
+
+Use `DB.transaction:` when two or more database changes represent one business
+operation. Jazzy commits the whole block when it succeeds. If a query or your
+code raises an error, every query in that block is rolled back.
+
+```nim
+proc placeOrder(ctx: Context) {.async.} =
+  var orderId: int64
+
+  DB.transaction:
+    orderId = await DB.table("orders").insert(%*{
+      "user_id": ctx.param("userId"),
+      "status": "pending"
+    })
+
+    discard await DB.table("order_items").insert(%*{
+      "order_id": orderId,
+      "product_id": ctx.bodyInput("productId")
+    })
+
+    discard await DB.table("products")
+      .where("id", ctx.bodyInput("productId"))
+      .update(%*{"stock_reserved": true})
+
+  ctx.status(201).json(%*{"id": orderId})
+```
+
+The block waits for the transaction internally; database calls inside it remain
+normal awaited calls. A single `insert`, `update`, or `delete` statement is
+already atomic, so use a transaction for related operations such as an order
+plus its items, a stock adjustment, or a money transfer.
+
+On SQLite Jazzy holds its shared database lock for the block. On PostgreSQL it
+pins one pool connection for the block. Keep it short and database-only: do not
+make HTTP calls, file operations, or other slow awaits inside it. Nested
+transactions are rejected for now instead of silently changing transaction
+boundaries.
+
 ## Soft Deletes
 
 If a table was created with `.softDeletes()`, `delete()` sets `deleted_at`
