@@ -24,7 +24,7 @@ proc register(ctx: Context) {.async.} =
   # If we reach here, validation PASSED.
   # 'data' is a JsonNode containing the validated input.
   
-  let user = DB.table("users").insert(data)
+  let user = await DB.table("users").insert(data)
   ctx.json(%*{"status": "success", "id": user})
 ```
 

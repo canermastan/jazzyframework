@@ -5,6 +5,20 @@ description: Define routes, groups, and middleware.
 
 Routing in Jazzy is expressive, simple, and designed to be readable. It connects incoming HTTP requests to your application's logic.
 
+<div class="docs-hero" data-wordmark="ROUTE">
+  <p class="docs-kicker">REQUEST IN. CODE OUT.</p>
+  <h2>Keep an entire HTTP surface readable from one route file.</h2>
+  <p>Start with a handler, capture parameters where they belong, and group routes when a prefix or guard is shared.</p>
+  <div class="docs-badges"><span>typed Context</span><span>async handlers</span><span>groupPath()</span></div>
+</div>
+
+<div class="journey-path">
+  <a href="#basic-routing"><strong>01</strong><span>Handle</span><small>Map a method and path to code.</small></a>
+  <a href="#route-parameters"><strong>02</strong><span>Capture</span><small>Read dynamic URL segments.</small></a>
+  <a href="#route-groups"><strong>03</strong><span>Group</span><small>Share a prefix or middleware.</small></a>
+  <a href="#handling-404-not-found"><strong>04</strong><span>Finish</span><small>Define the edge of the app.</small></a>
+</div>
+
 ## Basic Routing
 The easiest way to define a route is using a closure. This is great for small apps, quick prototypes, or single-file scripts.
 

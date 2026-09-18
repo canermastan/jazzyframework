@@ -1,165 +1,168 @@
 ---
 title: Getting Started
-description: Learn how to create and build a modern web application with Jazzy.
+description: Build a small JSON API with Jazzy, SQLite or PostgreSQL, and the query builder.
 ---
 
-Jazzy is a modern, high-performance web framework for Nim. This guide will walk you through creating a new project, setting up your database, and building your first API.
+This guide builds a small Todo API. The same application works with SQLite for
+local development or PostgreSQL in production.
 
-## 1. Create a New Project
+<div class="docs-hero" data-wordmark="START">
+  <p class="docs-kicker">YOUR FIRST JAZZY API</p>
+  <h2>Six small steps. One working Todo API.</h2>
+  <p>Follow the path in order, or jump straight to the part you need. The application code stays the same for local SQLite and production PostgreSQL.</p>
+  <div class="docs-badges"><span>~10 minutes</span><span>SQLite or PostgreSQL</span><span>await-first</span></div>
+</div>
 
-The easiest way to start is using the Jazzy CLI. Run the following command to bootstrap a new project:
+<div class="journey-path">
+  <a href="#1-create-a-project"><strong>01</strong><span>Create</span><small>Generate a clean app.</small></a>
+  <a href="#2-configure-the-database"><strong>02</strong><span>Configure</span><small>Pick SQLite or PostgreSQL.</small></a>
+  <a href="#3-apply-the-first-migration"><strong>03</strong><span>Migrate</span><small>Create the Todo table once.</small></a>
+  <a href="#4-create-a-controller"><strong>04</strong><span>Write</span><small>Add awaited CRUD actions.</small></a>
+  <a href="#5-register-routes"><strong>05</strong><span>Route</span><small>Connect HTTP to code.</small></a>
+  <a href="#6-start-the-application"><strong>06</strong><span>Run</span><small>Send the first request.</small></a>
+</div>
+
+## 1. Create a Project
 
 ```bash
-# Create a new project
-jazzy new my_project
-
-# Enter the directory
-cd my_project
-
-# Install project dependencies
+jazzy new todo_app
+cd todo_app
 nimble install -y
 ```
 
-This creates a project structure with `app.nim`, `router.nim`, `schema.nim`, a `.env` file, and an `app.db` SQLite database.
+The generated project includes `app.nim`, `router.nim`, a first migration, a
+controller, and `.env`. There is no migration runner file to manage: the CLI
+generates its ignored runner in `.jazzy/` when needed.
 
-## 2. Configuration (.env)
+## 2. Configure the Database
 
-Your project includes a `.env` file for environment-specific configuration. Here are the key variables:
+For SQLite, the generated `.env` is already enough:
 
 ```env
 APP_ENV=development
-LOG_LEVEL=debug
-DEV_UI_ENABLED=true # Development only; ignored in production
-CSRF_ENABLED=false  # enable for browser forms that use auth_token cookies
-JWT_SECRET=<generated-random-secret>
+DEV_UI_ENABLED=true
+DB_CONNECTION=sqlite
+DB_DATABASE=database.sqlite
+JWT_SECRET=replace-with-a-random-secret-of-at-least-32-characters
 ```
 
-`jazzy new` generates a cryptographically random `JWT_SECRET` for you. Keep
-that value private and use a different secure value in your production
-environment. See [Authentication](/authentication/) for cookie authentication
-and CSRF-protected forms.
-
-CSRF is disabled in a newly generated project to keep JSON and Bearer-token
-APIs frictionless. Enable it when you build browser forms that authenticate
-through Jazzy's cookie-based session flow.
-
-You can add further settings when needed:
+For PostgreSQL, replace the SQLite settings with a URL:
 
 ```env
-TRUST_PROXY=false   # set true behind a trusted reverse proxy
-BODY_LIMIT_MB=10    # global request body size limit
+DB_CONNECTION=postgres
+DATABASE_URL=postgresql://jazzy:secret@127.0.0.1:5432/todo_app
+DB_POOL_MIN=1
+DB_POOL_MAX=1
 ```
 
-## 3. Database Schema (schema.nim)
+Jazzy reads `.env` automatically. Do not add `connectDB()` to a new project.
 
-Jazzy uses a simple, fluent migration system. Define your tables in `schema.nim`:
+## 3. Apply the First Migration
+
+The generated `src/migrations/m00000000000000_create_todos.nim` creates the
+Todo table. Apply it once before starting the app:
+
+```bash
+jazzy migrate
+```
+
+The migration selects SQLite or PostgreSQL from `DB_CONNECTION`. To evolve the
+schema later, create another migration with `jazzy make:migration <name>`.
+
+## 4. Create a Controller
+
+Create `controllers/todo_controller.nim`:
 
 ```nim
 import jazzy
-
-proc initSchema*() =
-  # Create todos table
-  createTable("todos")
-    .increments("id")
-    .string("title")
-    .boolean("completed", default = false)
-    .execute()
-
-  # Create users table
-  createTable("users")
-    .increments("id")
-    .string("username")
-    .string("password")
-    .execute()
-```
-
-## 4. Controllers and Validation
-
-Controllers handle request logic. You can use expressive validation directly in your handlers:
-
-```nim
-# controllers/todo_controller.nim
-import jazzy
-
-proc create*(ctx: Context) {.async.} =
-  # Validate incoming JSON
-  let data = ctx.validate(%*{
-    "title": "required|min:3",
-    "completed": "bool"
-  })
-
-  # Validation passed! 'data' is a JsonNode with validated values.
-  let title = data.getString("title")
-  let content = data.getString("content")
-  
-  # Insert into database using the Query Builder
-  DB.table("todos").insert(%*{
-    "title": title,
-    "completed": false
-  })
-
-  ctx.status(201).json(%*{"status": "created"})
 
 proc list*(ctx: Context) {.async.} =
-  # Fetch all todos
-  let todos = DB.table("todos").get()
+  let todos = await DB.table("todos")
+    .orderBy("id", "DESC")
+    .get()
   ctx.json(todos)
+
+proc create*(ctx: Context) {.async.} =
+  let data = ctx.validate(%*{
+    "title": "required|min:3"
+  })
+
+  let todo = await DB.table("todos")
+    .returning("id", "title", "completed", "created_at")
+    .insert(%*{
+      "title": data["title"].getStr,
+      "completed": false
+    })
+
+  ctx.status(201).json(todo)
+
+proc complete*(ctx: Context) {.async.} =
+  let changed = await DB.table("todos")
+    .where("id", ctx.param("id"))
+    .update(%*{"completed": true})
+
+  if changed == 0:
+    ctx.status(404).json(%*{"error": "Todo not found"})
+    return
+
+  ctx.json(%*{"status": "completed"})
 ```
 
-## 5. Routing (router.nim)
+Notice that each database operation uses `await`. The route parameter in
+`ctx.param("id")` is a string; Jazzy automatically handles the PostgreSQL
+numeric cast when the column is a normal numeric ID.
 
-Organize your routes in `router.nim` and use route groups for common prefixes or middlewares:
+## 5. Register Routes
+
+Create `router.nim`:
 
 ```nim
-# router.nim
 import jazzy
 import controllers/todo_controller
 
 proc registerRoutes*() =
-  # Public route
-  Route.get("/ping", proc(ctx: Context) {.async.} = ctx.text("pong"))
-
-  # Grouped routes with path prefix and middleware
-  Route.groupPath("/todos", guard): # Protected by JWT guard
+  Route.groupPath("/todos"):
     Route.get("/", todo_controller.list)
     Route.post("/", todo_controller.create)
+    Route.patch("/:id/complete", todo_controller.complete)
 ```
 
-## 6. Putting it All Together (app.nim)
+## 6. Start the Application
 
-Your main entry point connects to the database, initializes the schema, registers routes, and starts the server:
+Connect the pieces in `app.nim`:
 
 ```nim
-# app.nim
 import jazzy
-import schema
 import router
 
 proc main() =
-  # 1. Connect to SQLite
-  connectDB("app.db")
-
-  # 2. Run migrations (creates tables if they don't exist)
-  initSchema()
-
-  # 3. Register routes from router.nim
   registerRoutes()
-
-  # 4. Start the server
   Jazzy.serve(8080)
 
-if isMainModule:
+when isMainModule:
   main()
 ```
 
-## Running Your App
-
-Simply run your `app.nim`:
+Run the application:
 
 ```bash
-nim c -r app.nim
+nimble c -r src/app.nim
 ```
 
-Your API is now running on `http://localhost:8080`. Because generated projects
-set `DEV_UI_ENABLED=true` for development, you can access the **Dev UI** at
-`http://localhost:8080/dev-ui`. Never enable it on a public deployment.
+Try it:
+
+```bash
+curl -X POST http://localhost:8080/todos/ ^
+  -H "Content-Type: application/json" ^
+  -d "{\"title\": \"Learn Jazzy\"}"
+```
+
+Then open `http://localhost:8080/todos/` in a browser or HTTP client.
+
+## Next Steps
+
+- Learn the complete [Database](/jazzyframework/en/database/) API.
+- Learn how [Migrations](/jazzyframework/en/migrations/) and the optional [ORM](/jazzyframework/en/orm/) work.
+- Add [validation](/jazzyframework/en/validation/) rules to controllers.
+- Learn how [routing](/jazzyframework/en/routing/) and middleware work.
+- Use the local-only [Dev UI](/jazzyframework/en/dev-ui/) while developing.

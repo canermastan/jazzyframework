@@ -7,6 +7,20 @@ Jazzy includes a blazing-fast, zero-allocation template engine called **Melody**
 
 By default, Jazzy looks for your template files inside the `views/` directory at the root of your project.
 
+<div class="docs-hero" data-wordmark="MELODY">
+  <p class="docs-kicker">SERVER-RENDERED, WITHOUT FRICTION</p>
+  <h2>Write templates that stay fast in production and fluid in development.</h2>
+  <p>Render a view with JSON data, compose pages with layouts and partials, then let Melody re-read templates during development without a server restart.</p>
+  <div class="docs-badges"><span>zero allocation</span><span>auto escaping</span><span>hot reload in dev</span></div>
+</div>
+
+<div class="journey-path">
+  <a href="#rendering-a-view"><strong>01</strong><span>Render</span><small>Send data to a named template.</small></a>
+  <a href="#template-syntax"><strong>02</strong><span>Write</span><small>Display, branch, and loop safely.</small></a>
+  <a href="#layouts-and-partials"><strong>03</strong><span>Compose</span><small>Share structure across pages.</small></a>
+  <a href="#performance-caching"><strong>04</strong><span>Cache</span><small>Keep repeated pages fast.</small></a>
+</div>
+
 :::tip[Developer Experience]
 **No server restarts required!** When you are running Jazzy in **development mode**, Melody automatically re-reads your HTML templates from disk on every request. You can just edit your `.html` files, hit save, and refresh your browser.
 :::
@@ -47,7 +61,7 @@ By default, if you pass an array directly, you must iterate over it using the sp
 However, for a better Developer Experience (DX), you can provide an explicit name for your array using the three-parameter render helper. This avoids having to wrap your array in a JSON object manually.
 
 ```nim
-let dbArray = DB.table("users").get()
+let dbArray = await DB.table("users").get()
 
 # Option 1: Passing an array directly. (Template uses $data)
 ctx.render("users", dbArray)
@@ -217,7 +231,7 @@ frictionless. If this form belongs to a browser application that uses the
 field on every unsafe form.
 :::
 
-See [Authentication](/authentication/#csrf-protection-for-browser-sessions)
+See [Authentication](/jazzyframework/en/authentication/#csrf-protection-for-browser-sessions)
 for the complete browser-session flow.
 
 ---

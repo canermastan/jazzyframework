@@ -142,7 +142,7 @@ import {
             class="inline-flex items-center gap-2 px-3 py-1 rounded-full border-2 border-border bg-chart-3 text-foreground text-sm font-bold shadow-sm transform -rotate-2 hover:rotate-0 transition-transform"
           >
             <Zap size={16} fill="currentColor" />
-            <span id="latest-version-badge">v0.4.6 is now live!</span>
+            <span id="latest-version-badge">v0.5.0 is now live!</span>
           </div>
 
           <h1
@@ -264,12 +264,12 @@ import {
               >
                 <Database className="w-6 h-6 text-black" />
               </div>
-              <CardTitle>Integrated SQLite</CardTitle>
+              <CardTitle>SQLite + PostgreSQL</CardTitle>
             </CardHeader>
             <CardContent>
               <CardDescription className="text-base text-foreground/80">
-                Focus on data, not config. Zero-setup SQLite support with
-                built-in connection tools and CRUD operations.
+                One await-first API, versioned migrations, a typed ORM, and
+                portable CRUD from local SQLite to production PostgreSQL.
               </CardDescription>
             </CardContent>
           </Card>
@@ -287,8 +287,8 @@ import {
             </CardHeader>
             <CardContent>
               <CardDescription className="text-base text-foreground/80">
-                Your coding assistant. Run `jazzy make:controller` and let the
-                CLI generate standard-compliant boilerplate for you.
+                Start with `jazzy new`, then create reviewable migrations and
+                seeders from the CLI instead of hand-wiring project setup.
               </CardDescription>
             </CardContent>
           </Card>
@@ -374,11 +374,12 @@ import {
         <div class="max-w-6xl mx-auto space-y-12">
           <div class="text-center max-w-3xl mx-auto space-y-4">
             <h2 class="text-3xl lg:text-4xl font-heading font-bold">
-              Database access? Fluent & Typosafe.
+              A database workflow, not just a query builder.
             </h2>
             <p class="text-xl opacity-90">
-              Zero configuration query builder. Insert, Select, Delete with
-              ease.
+              Configure once in <code>.env</code>, migrate safely, model your
+              data, then ship awaited CRUD. SQLite and PostgreSQL keep the same
+              developer experience.
             </p>
           </div>
 

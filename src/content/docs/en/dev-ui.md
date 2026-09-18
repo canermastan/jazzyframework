@@ -18,10 +18,14 @@ Inspect your current `.env` configuration and environment variables securely (on
 
 ### 4. Database Explorer
 A full-featured SQL client built into your browser:
-- **Table Browser:** List all tables and row counts.
-- **Schema Viewer:** View detailed column definitions, types, and constraints.
+- **Table Browser:** List SQLite tables and row counts.
+- **Schema Viewer:** View SQLite column definitions, types, and constraints.
 - **SQL Console:** Execute raw SQL queries and see real-time results.
 - **Insert Generator:** Automatically generate `INSERT` templates for any table.
+
+The query builder supports SQLite and PostgreSQL. The Dev UI's table browser
+and schema viewer currently use SQLite metadata and will gain PostgreSQL
+metadata support in a later release.
 
 ### 5. Cache Management
 View all active keys in `AppCache` and clear them with a single click.

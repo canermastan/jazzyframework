@@ -4,7 +4,21 @@ description: Built-in JWT Authentication and Security.
 ---
 
 Jazzy includes JWT authentication and password-hashing primitives. Read the
-[Security Guide](/security/) before deploying an authentication flow.
+[Security Guide](/jazzyframework/en/security/) before deploying an authentication flow.
+
+<div class="docs-hero" data-wordmark="AUTH">
+  <p class="docs-kicker">AUTHENTICATE WITH INTENT</p>
+  <h2>Hash the password, issue a small claim set, protect the route.</h2>
+  <p>Jazzy supports Bearer-token APIs and secure browser-cookie sessions. Pick the flow deliberately, then keep credentials and claims small.</p>
+  <div class="docs-badges"><span>PBKDF2 hashing</span><span>JWT</span><span>CSRF-aware cookies</span></div>
+</div>
+
+<div class="journey-path">
+  <a href="#configuration"><strong>01</strong><span>Configure</span><small>Set a private signing secret.</small></a>
+  <a href="#authentication-flow"><strong>02</strong><span>Sign in</span><small>Hash, verify, and issue claims.</small></a>
+  <a href="#csrf-protection-for-browser-sessions"><strong>03</strong><span>Protect forms</span><small>Enable CSRF for cookie sessions.</small></a>
+  <a href="#protecting-routes"><strong>04</strong><span>Guard routes</span><small>Require a valid identity.</small></a>
+</div>
 
 ## Configuration
 Set your secret key in `.env`.
@@ -28,7 +42,7 @@ proc register*(ctx: Context) {.async.} =
   # Securely hash the password (salted PBKDF2-HMAC-SHA256)
   let hashed = hashPassword(plainPassword)
   
-  let newId = DB.table("users").insert(%*{
+  let newId = await DB.table("users").insert(%*{
     "email": email,
     "password": hashed,
     "role": "user"
@@ -51,7 +65,7 @@ proc handleLogin*(ctx: Context) {.async.} =
   let email    = ctx.bodyInput("email")
   let password = ctx.bodyInput("password")
 
-  let user = DB.table("users").where("email", email).first()
+  let user = await DB.table("users").where("email", email).first()
 
   if user.isNull() or not verifyPassword(password, user.getString("password")):
     ctx.status(401).json(%*{"error": "Invalid credentials"})
@@ -86,9 +100,7 @@ proc handleLogin*(ctx: Context) {.async.} =
   # bodyInput checks JSON and form data, but never the query string.
   let remember = ctx.input("remember") == "true" or ctx.input("remember") == "on"
 
-  let remember = ctx.input("remember") == "true" or ctx.input("remember") == "on"
-
-  let user = DB.table("users").where("email", email).first()
+  let user = await DB.table("users").where("email", email).first()
 
   if user.isNull() or not verifyPassword(password, user.getString("password")):
     ctx.status(401).json(%*{"error": "Invalid credentials"})
@@ -122,7 +134,7 @@ proc handleLogin*(ctx: Context) {.async.} =
 
   # Generate a secure random string for the refresh token and save it to your DB
   let refreshToken = generateSecureRandomString()
-  DB.table("refresh_tokens").insert(%*{"user_id": user.getInt("id"), "token": refreshToken})
+  discard await DB.table("refresh_tokens").insert(%*{"user_id": user.getInt("id"), "token": refreshToken})
 
   # loginWithRefresh issues a 15-minute JWT and a 30-day refresh_token cookie
   let token = ctx.loginWithRefresh(%*{
@@ -138,7 +150,7 @@ proc handleRefresh*(ctx: Context) {.async.} =
     return
     
   # Validate storedToken against your database
-  let record = DB.table("refresh_tokens").where("token", storedToken).first()
+  let record = await DB.table("refresh_tokens").where("token", storedToken).first()
   if record.isNull():
     ctx.status(401).json(%*{"error": "Invalid refresh token"})
     return
@@ -204,7 +216,7 @@ await fetch('/settings', {
 ```
 
 Requests that use only a Bearer token and do not carry browser auth cookies are
-not subject to CSRF validation. See [Configuration](/configuration/) for the
+not subject to CSRF validation. See [Configuration](/jazzyframework/en/configuration/) for the
 compatibility migration path and when to disable CSRF.
 
 ## Protecting Routes

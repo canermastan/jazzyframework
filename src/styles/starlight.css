@@ -113,3 +113,331 @@
 .content-panel a:hover {
     text-decoration-thickness: 2px;
 }
+
+/* --- Database documentation experience --- */
+.sl-markdown-content .database-hero {
+    position: relative;
+    overflow: hidden;
+    margin: 0.25rem 0 2.5rem;
+    padding: clamp(1.5rem, 4vw, 3rem);
+    border: 2px solid var(--sl-color-border);
+    border-radius: 0.7rem;
+    background:
+        radial-gradient(circle at 92% 12%, rgba(255, 122, 5, 0.28), transparent 25rem),
+        linear-gradient(135deg, var(--sl-color-accent-low), var(--sl-color-bg));
+    box-shadow: 8px 8px 0 var(--sl-color-border);
+}
+
+.sl-markdown-content .database-hero::after {
+    content: 'await';
+    position: absolute;
+    right: -0.8rem;
+    bottom: -1.7rem;
+    color: var(--sl-color-accent);
+    font-family: var(--sl-font-mono);
+    font-size: clamp(4rem, 13vw, 8rem);
+    font-weight: 800;
+    letter-spacing: -0.1em;
+    opacity: 0.16;
+    transform: rotate(-8deg);
+    pointer-events: none;
+}
+
+.sl-markdown-content .database-hero h1,
+.sl-markdown-content .database-hero h2 {
+    position: relative;
+    max-width: 13ch;
+    margin: 0;
+    font-size: clamp(2.3rem, 5vw, 4rem);
+    line-height: 1.02;
+}
+
+.sl-markdown-content .database-hero p:not(.database-kicker) {
+    position: relative;
+    max-width: 42rem;
+    margin: 1rem 0 0;
+    color: var(--sl-color-text);
+    font-size: 1.1rem;
+}
+
+.sl-markdown-content .database-kicker {
+    position: relative;
+    margin: 0 0 0.8rem;
+    color: var(--sl-color-text-accent);
+    font-family: var(--sl-font-mono);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+}
+
+.sl-markdown-content .database-badges {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+}
+
+.sl-markdown-content .database-badges span {
+    padding: 0.3rem 0.62rem;
+    border: 1px solid var(--sl-color-border);
+    border-radius: 999px;
+    background: var(--sl-color-bg);
+    color: var(--sl-color-text);
+    font-family: var(--sl-font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.sl-markdown-content .database-action {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.55rem 0.8rem;
+    border: 1px solid var(--sl-color-accent);
+    border-radius: 0.35rem;
+    background: var(--sl-color-accent);
+    color: var(--sl-color-bg) !important;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.sl-markdown-content .database-action:hover {
+    box-shadow: 3px 3px 0 var(--sl-color-text);
+    transform: translate(-1px, -1px);
+}
+
+.sl-markdown-content .database-path {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.6rem;
+    margin: 1.75rem 0 2.75rem;
+}
+
+.sl-markdown-content .database-path a {
+    display: grid;
+    gap: 0.18rem;
+    min-height: 8.5rem;
+    padding: 1rem;
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: 0.55rem;
+    background: var(--sl-color-bg);
+    color: var(--sl-color-text);
+    text-decoration: none;
+    transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.sl-markdown-content .database-path a:hover {
+    border-color: var(--sl-color-accent);
+    box-shadow: 4px 4px 0 var(--sl-color-accent);
+    transform: translate(-2px, -2px);
+}
+
+.sl-markdown-content .database-path strong {
+    color: var(--sl-color-accent);
+    font-family: var(--sl-font-mono);
+    font-size: 0.78rem;
+}
+
+.sl-markdown-content .database-path span {
+    font-weight: 800;
+}
+
+.sl-markdown-content .database-path small {
+    color: var(--sl-color-text);
+    font-size: 0.78rem;
+    line-height: 1.35;
+    opacity: 0.8;
+}
+
+.sl-markdown-content .db-callout {
+    margin: 1.5rem 0;
+    padding: 1rem 1.1rem;
+    border-left: 4px solid var(--sl-color-accent);
+    border-radius: 0.3rem;
+    background: var(--sl-color-accent-low);
+}
+
+.sl-markdown-content .db-callout p {
+    margin: 0;
+}
+
+.sl-markdown-content .db-callout-info {
+    border-left-color: #2185d0;
+    background: color-mix(in srgb, #2185d0 10%, var(--sl-color-bg));
+}
+
+.sl-markdown-content .db-callout-tip {
+    border-left-color: #249268;
+    background: color-mix(in srgb, #249268 10%, var(--sl-color-bg));
+}
+
+.sl-markdown-content .db-callout-warn {
+    border-left-color: #d95d39;
+    background: color-mix(in srgb, #d95d39 10%, var(--sl-color-bg));
+}
+
+/* --- Guided documentation building blocks ---
+   These are deliberately content-first: links are real links, the disclosure
+   is native HTML, and animation is only a small visual affordance. */
+.sl-markdown-content .docs-hero {
+    position: relative;
+    overflow: hidden;
+    margin: 0.25rem 0 2.35rem;
+    padding: clamp(1.4rem, 3.5vw, 2.7rem);
+    border: 2px solid var(--sl-color-border);
+    border-radius: 0.7rem;
+    background:
+        radial-gradient(circle at 90% 10%, color-mix(in srgb, var(--sl-color-accent) 28%, transparent), transparent 24rem),
+        linear-gradient(135deg, var(--sl-color-accent-low), var(--sl-color-bg));
+    box-shadow: 7px 7px 0 var(--sl-color-border);
+}
+
+.sl-markdown-content .docs-hero::after {
+    content: attr(data-wordmark);
+    position: absolute;
+    right: -0.6rem;
+    bottom: -1.5rem;
+    color: var(--sl-color-accent);
+    font-family: var(--sl-font-mono);
+    font-size: clamp(3.5rem, 12vw, 7rem);
+    font-weight: 800;
+    letter-spacing: -0.1em;
+    opacity: 0.14;
+    transform: rotate(-7deg);
+    pointer-events: none;
+}
+
+.sl-markdown-content .docs-hero h2 {
+    position: relative;
+    max-width: 15ch;
+    margin: 0;
+    font-size: clamp(2rem, 4.4vw, 3.5rem);
+    line-height: 1.04;
+}
+
+.sl-markdown-content .docs-hero p:not(.docs-kicker) {
+    position: relative;
+    max-width: 46rem;
+    margin: 0.95rem 0 0;
+    font-size: 1.05rem;
+}
+
+.sl-markdown-content .docs-kicker {
+    position: relative;
+    margin: 0 0 0.75rem;
+    color: var(--sl-color-text-accent);
+    font-family: var(--sl-font-mono);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+}
+
+.sl-markdown-content .docs-badges {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.35rem;
+}
+
+.sl-markdown-content .docs-badges span {
+    padding: 0.3rem 0.62rem;
+    border: 1px solid var(--sl-color-border);
+    border-radius: 999px;
+    background: var(--sl-color-bg);
+    color: var(--sl-color-text);
+    font-family: var(--sl-font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.sl-markdown-content .journey-path,
+.sl-markdown-content .choice-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr));
+    gap: 0.65rem;
+    margin: 1.6rem 0 2.6rem;
+}
+
+.sl-markdown-content .journey-path a,
+.sl-markdown-content .choice-card {
+    display: grid;
+    align-content: start;
+    gap: 0.25rem;
+    min-height: 7.7rem;
+    padding: 0.95rem;
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: 0.55rem;
+    background: var(--sl-color-bg);
+    color: var(--sl-color-text);
+    text-decoration: none;
+    transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.sl-markdown-content .journey-path a:hover,
+.sl-markdown-content .choice-card:hover {
+    border-color: var(--sl-color-accent);
+    box-shadow: 4px 4px 0 var(--sl-color-accent);
+    transform: translate(-2px, -2px);
+    text-decoration: none;
+}
+
+.sl-markdown-content .journey-path strong,
+.sl-markdown-content .choice-card strong {
+    color: var(--sl-color-accent);
+    font-family: var(--sl-font-mono);
+    font-size: 0.76rem;
+}
+
+.sl-markdown-content .journey-path span,
+.sl-markdown-content .choice-card span {
+    color: var(--sl-color-heading);
+    font-size: 0.94rem;
+    font-weight: 800;
+    line-height: 1.25;
+}
+
+.sl-markdown-content .journey-path small,
+.sl-markdown-content .choice-card small {
+    color: var(--sl-color-text);
+    font-size: 0.78rem;
+    line-height: 1.35;
+    opacity: 0.8;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .sl-markdown-content .docs-hero {
+        animation: docs-hero-enter 360ms ease-out both;
+    }
+}
+
+@keyframes docs-hero-enter {
+    from {
+        opacity: 0;
+        transform: translateY(0.45rem);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 50rem) {
+    .sl-markdown-content .database-path {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .sl-markdown-content .database-path a {
+        min-height: 6.5rem;
+    }
+
+    .sl-markdown-content .journey-path,
+    .sl-markdown-content .choice-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .sl-markdown-content .journey-path a,
+    .sl-markdown-content .choice-card {
+        min-height: 6.4rem;
+    }
+}

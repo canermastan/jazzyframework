@@ -1,209 +1,214 @@
-import React, { useState, useEffect } from 'react';
-import { Database, Plus, Search, Trash2, ArrowRight } from 'lucide-react';
+import React, { useEffect, useState } from "react";
+import {
+  ArrowRight,
+  Check,
+  Database,
+  FileCode2,
+  Leaf,
+  Play,
+  Server,
+} from "lucide-react";
+
+type StepId = "config" | "migration" | "model" | "query";
+
+type DatabaseStep = {
+  id: StepId;
+  label: string;
+  file: string;
+  detail: string;
+  code: string;
+  accent: string;
+};
+
+const steps: DatabaseStep[] = [
+  {
+    id: "config",
+    label: "Configure",
+    file: ".env",
+    detail: "One driver switch. No connection boilerplate.",
+    accent: "bg-chart-3 text-black",
+    code: `DB_CONNECTION=postgres
+DATABASE_URL=postgresql://jazzy:•••@db:5432/app
+DB_POOL_MIN=1
+DB_POOL_MAX=1`,
+  },
+  {
+    id: "migration",
+    label: "Migrate",
+    file: "m2026_create_tasks.nim",
+    detail: "Versioned schema, transactional on both drivers.",
+    accent: "bg-chart-4 text-white",
+    code: `migration "20260917143000_create_tasks":
+  up:
+    await createTable("tasks")
+      .increments("id")
+      .string("title")
+      .boolean("completed", default = false)
+      .timestamps().execute()`,
+  },
+  {
+    id: "model",
+    label: "Model",
+    file: "models/task.nim",
+    detail: "One Nim block becomes a typed, awaited API.",
+    accent: "bg-chart-5 text-white",
+    code: `model Task:
+  table "tasks"
+  id int64
+  title string
+  completed bool
+  timestamps()`,
+  },
+  {
+    id: "query",
+    label: "Ship",
+    file: "controllers/task_controller.nim",
+    detail: "ORM and query builder share one async database layer.",
+    accent: "bg-chart-1 text-white",
+    code: `let tasks = await Task
+  .where("completed", false)
+  .orderBy("id", "DESC")
+  .get()`,
+  },
+];
 
 const highlightCode = (code: string) => {
   const strings: string[] = [];
-  const maskedCode = code.replace(/"(.*?)"/g, (match) => {
+  const masked = code.replace(/"(.*?)"/g, (match) => {
     strings.push(match);
-    return `__STR_${strings.length - 1}__`;
+    return `__STRING_${strings.length - 1}__`;
   });
 
-  let highlighted = maskedCode
-    // Numbers
-    .replace(/\b(\d+)\b/g, '<span class="text-chart-5">$1</span>')
-    // Keywords
-    .replace(/\b(let|echo)\b/g, '<span class="text-chart-3 font-bold">$1</span>')
-    // Objects/Modules
-    .replace(/\b(DB|table|insert|where|get|delete)\b/g, '<span class="text-chart-2">$1</span>')
-    // Symbols
-    .replace(/(\{|\}|\(|\)|:|\.|%|\*|\[|\]|,)/g, '<span class="text-gray-400">$1</span>');
+  // Apply punctuation before inserting span elements. Otherwise the regex
+  // would also touch the HTML attributes we insert for the other tokens.
+  let output = masked
+    .replace(/(\{|\}|\(|\)|:|\.|=|,)/g, '<span class="text-gray-400">$1</span>')
+    .replace(
+      /\b(await|let|model|migration|up|true|false)\b/g,
+      '<span class="text-chart-3 font-bold">$1</span>',
+    )
+    .replace(
+      /\b(Task|DB_CONNECTION|DATABASE_URL|createTable|increments|string|boolean|timestamps|where|orderBy|get)\b/g,
+      '<span class="text-chart-2">$1</span>',
+    )
+    .replace(/\b(1|false|true)\b/g, '<span class="text-chart-5">$1</span>');
 
-  // Unmask strings
-  strings.forEach((str, i) => {
-    highlighted = highlighted.replace(`__STR_${i}__`, `<span class="text-chart-1">${str}</span>`);
+  strings.forEach((value, index) => {
+    output = output.replace(
+      `__STRING_${index}__`,
+      `<span class="text-chart-1">${value}</span>`,
+    );
   });
 
-  return highlighted;
+  return output;
 };
 
 const DatabaseShowcase = () => {
-  const [phase, setPhase] = useState<'IDLE' | 'INSERT' | 'SELECT' | 'DELETE'>('IDLE');
-
-  // Mock Data
-  const initialUsers = [
-    { id: 1, name: 'Alice Smith', role: 'user' },
-    { id: 2, name: 'Bob Jones', role: 'user' },
-  ];
-  const [users, setUsers] = useState(initialUsers);
+  const [active, setActive] = useState<StepId>("config");
+  const activeIndex = steps.findIndex((step) => step.id === active);
+  const current = steps[activeIndex];
 
   useEffect(() => {
-    let timeout: NodeJS.Timeout;
-
-    const runAnimation = async () => {
-      // PHASE 1: INSERT
-      setPhase('INSERT');
-      await new Promise(r => setTimeout(r, 1000)); // Show Code
-
-      // Execute Insert
-      setUsers(prev => [...prev, { id: 3, name: 'Jane Doe', role: 'admin' }]);
-      await new Promise(r => setTimeout(r, 2000)); // Pause to see result
-
-      // PHASE 2: SELECT
-      setPhase('SELECT');
-      await new Promise(r => setTimeout(r, 1000)); // Show Code
-
-      // Execute Select (Visual highlight)
-      await new Promise(r => setTimeout(r, 2500)); // Pause
-
-      // PHASE 3: DELETE
-      setPhase('DELETE');
-      await new Promise(r => setTimeout(r, 1000)); // Show Code
-
-      // Execute Delete
-      setUsers(prev => prev.filter(u => u.id !== 3));
-      await new Promise(r => setTimeout(r, 2000)); // Pause
-
-      // RESET
-      setPhase('IDLE');
-      setUsers(initialUsers);
-      runAnimation();
-    };
-
-    // Initial Start
-    timeout = setTimeout(runAnimation, 100);
-    return () => clearTimeout(timeout);
+    const timer = window.setInterval(() => {
+      setActive((value) => {
+        const index = steps.findIndex((step) => step.id === value);
+        return steps[(index + 1) % steps.length].id;
+      });
+    }, 4200);
+    return () => window.clearInterval(timer);
   }, []);
 
-  const getCodeSnippet = () => {
-    switch (phase) {
-      case 'INSERT':
-        return `DB.table("users").insert(%*{
-  "name": "Jane Doe",
-  "role": "admin"
-})`;
-      case 'SELECT':
-        return `let users = DB.table("users")
-  .where("role", "admin")
-  .get()`;
-      case 'DELETE':
-        return `DB.table("users")
-  .where("id", 3)
-  .delete()`;
-      default:
-        // Idle showing the table default
-        return `DB.table("users").all()`;
-    }
-  };
-
-  const getPhaseColor = () => {
-    switch (phase) {
-      case 'INSERT': return 'bg-chart-4 text-white'; // Green
-      case 'SELECT': return 'bg-chart-3 text-black'; // Yellow
-      case 'DELETE': return 'bg-chart-1 text-white'; // Red/Orange
-      default: return 'bg-main text-white';
-    }
-  };
-
-  const getPhaseIcon = () => {
-    switch (phase) {
-      case 'INSERT': return <Plus className="w-5 h-5" />;
-      case 'SELECT': return <Search className="w-5 h-5" />;
-      case 'DELETE': return <Trash2 className="w-5 h-5" />;
-      default: return <Database className="w-5 h-5" />;
-    }
-  };
-
-  const getPhaseLabel = () => {
-    switch (phase) {
-      case 'INSERT': return 'Inserting Data...';
-      case 'SELECT': return 'Selecting Admins...';
-      case 'DELETE': return 'Deleting Record...';
-      default: return 'Database Ready';
-    }
-  }
-
   return (
-    <div className="flex flex-col lg:flex-row gap-8 items-center bg-secondary-background/50 p-8 rounded-base border-2 border-border shadow-shadow">
-      {/* Left: Dynamic Code Snippet */}
-      <div className="flex-1 w-full relative group">
-        <div className="absolute -top-3 left-4 bg-chart-3 text-black px-3 py-1 rounded-base border-border border-2 text-xs font-bold shadow-sm z-10">
-          DatabaseController.nim
+    <section className="overflow-hidden rounded-base border-2 border-border bg-secondary-background/50 shadow-shadow">
+      <div className="flex flex-col gap-4 border-b-2 border-border bg-background p-5 md:flex-row md:items-center md:justify-between">
+        <div className="flex items-center gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-base border-2 border-border bg-chart-3 shadow-sm">
+            <Database className="h-5 w-5" />
+          </div>
+          <div>
+            <p className="font-mono text-[11px] font-bold tracking-[0.16em] text-foreground/55">
+              THE DATABASE PATH
+            </p>
+            <h3 className="font-heading text-lg font-black">Config to production API</h3>
+          </div>
         </div>
-        <div className="bg-white dark:bg-black p-6 rounded-base border-2 border-border shadow-sm overflow-hidden h-full min-h-[300px] flex items-center justify-center">
-          {/* We use a key to force re-render/animation on phase change */}
-          <div key={phase} className="w-full animate-in fade-in slide-in-from-left-4 duration-300">
-            <pre className="font-mono text-sm leading-relaxed overflow-x-auto w-full">
-              <code dangerouslySetInnerHTML={{ __html: highlightCode(getCodeSnippet()) }} />
+        <a
+          href="/jazzyframework/en/database-quickstart/"
+          className="inline-flex items-center gap-1.5 self-start font-bold text-main hover:underline md:self-auto"
+        >
+          Follow the guide <ArrowRight className="h-4 w-4" />
+        </a>
+      </div>
+
+      <div className="grid gap-0 lg:grid-cols-[0.7fr_1.3fr]">
+        <nav className="flex gap-2 overflow-x-auto border-b-2 border-border bg-background p-4 lg:flex-col lg:border-b-0 lg:border-r-2">
+          {steps.map((step, index) => {
+            const selected = step.id === active;
+            return (
+              <button
+                type="button"
+                key={step.id}
+                onClick={() => setActive(step.id)}
+                className={`min-w-[10rem] border-2 border-border p-3 text-left transition-all lg:min-w-0 ${
+                  selected
+                    ? `${step.accent} translate-x-[2px] translate-y-[2px] shadow-none`
+                    : "bg-background shadow-sm hover:-translate-x-[1px] hover:-translate-y-[1px]"
+                }`}
+              >
+                <span className="font-mono text-[11px] font-bold opacity-70">0{index + 1}</span>
+                <span className="mt-1 flex items-center gap-2 font-heading font-bold">
+                  {step.id === "config" && <Server className="h-4 w-4" />}
+                  {step.id === "migration" && <FileCode2 className="h-4 w-4" />}
+                  {step.id === "model" && <Leaf className="h-4 w-4" />}
+                  {step.id === "query" && <Play className="h-4 w-4" />}
+                  {step.label}
+                </span>
+              </button>
+            );
+          })}
+        </nav>
+
+        <div className="grid gap-5 p-5 md:grid-cols-[1.25fr_0.75fr]">
+          <div className="relative min-h-[18rem] overflow-hidden rounded-base border-2 border-border bg-zinc-950 p-5 text-zinc-100 shadow-sm">
+            <div className="mb-5 flex items-center justify-between font-mono text-xs">
+              <span className="rounded border border-zinc-700 bg-zinc-900 px-2 py-1 text-zinc-300">
+                {current.file}
+              </span>
+              <span className="flex items-center gap-1 text-emerald-400">
+                <Check className="h-3.5 w-3.5" /> ready
+              </span>
+            </div>
+            <pre key={current.id} className="animate-in fade-in slide-in-from-bottom-2 overflow-x-auto font-mono text-sm leading-relaxed duration-300">
+              <code dangerouslySetInnerHTML={{ __html: highlightCode(current.code) }} />
             </pre>
           </div>
-        </div>
-      </div>
 
-      {/* Right: Visual Table */}
-      <div className="flex-1 w-full flex justify-center">
-        <div className="w-full max-w-sm bg-background p-6 rounded-base border-2 border-border shadow-shadow relative overflow-hidden transition-all duration-500">
-
-          {/* Header / Status Bar */}
-          <div className="mb-6 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-base border-2 border-border bg-white flex items-center justify-center shadow-sm">
-                <Database className="w-4 h-4 text-foreground" />
+          <div className="flex flex-col justify-between gap-5 rounded-base border-2 border-border bg-background p-5 shadow-sm">
+            <div>
+              <p className="font-mono text-[11px] font-bold tracking-[0.13em] text-foreground/55">
+                STEP 0{activeIndex + 1}
+              </p>
+              <h4 className="mt-2 font-heading text-2xl font-black">{current.label}</h4>
+              <p className="mt-2 text-sm font-medium leading-relaxed text-foreground/75">{current.detail}</p>
+            </div>
+            <div className="space-y-2 font-mono text-xs">
+              <div className="flex items-center justify-between border-b border-border/40 pb-2">
+                <span className="text-foreground/60">Driver</span>
+                <span className="font-bold">SQLite ↔ PostgreSQL</span>
               </div>
-              <span className="font-heading font-bold text-lg">users</span>
-            </div>
-            <div className={`px-3 py-1 rounded-base border-2 border-border text-xs font-bold shadow-sm flex items-center gap-2 transition-colors duration-300 ${getPhaseColor()}`}>
-              {getPhaseIcon()}
-              {getPhaseLabel()}
-            </div>
-          </div>
-
-          {/* Table Visualization */}
-          <div className="border-2 border-border rounded-base overflow-hidden bg-white dark:bg-black">
-            <div className="grid grid-cols-3 bg-secondary-background border-b-2 border-border p-2 font-bold text-xs uppercase text-foreground/70">
-              <div>ID</div>
-              <div>Name</div>
-              <div>Role</div>
-            </div>
-            <div className="max-h-[200px] overflow-y-auto">
-              {users.map((user) => {
-                const isNew = phase === 'INSERT' && user.id === 3;
-                const isSelected = phase === 'SELECT' && user.role === 'admin';
-                const isDeleting = phase === 'DELETE' && user.id === 3; // Though it's removed from state, we might want to animate removal. State update handles it instantly here. 
-
-                // For Delete, visually it disappears instantly in this code structure.
-                // Ideally we'd fade it out, but instant removal works for "Delete".
-
-                let rowClass = "grid grid-cols-3 p-3 border-b border-border/50 text-sm font-mono transition-all duration-300";
-                if (isNew) rowClass += " bg-chart-4/20 animate-in fade-in slide-in-from-right-4";
-                if (isSelected) rowClass += " bg-chart-3/20 ring-inset ring-2 ring-chart-3";
-                if (phase === 'SELECT' && !isSelected) rowClass += " opacity-30 blur-[1px]";
-
-                return (
-                  <div key={user.id} className={rowClass}>
-                    <div>{user.id}</div>
-                    <div>{user.name}</div>
-                    <div>
-                      <span className={`px-1.5 py-0.5 rounded text-[10px] uppercase font-bold border ${user.role === 'admin' ? 'bg-chart-5/10 text-chart-5 border-chart-5' : 'bg-gray-100 text-gray-500 border-gray-200'}`}>
-                        {user.role}
-                      </span>
-                    </div>
-                  </div>
-                );
-              })}
-              {users.length === 0 && (
-                <div className="p-4 text-center text-sm text-gray-400 italic">No records found.</div>
-              )}
+              <div className="flex items-center justify-between border-b border-border/40 pb-2">
+                <span className="text-foreground/60">Public API</span>
+                <span className="font-bold">await-first</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-foreground/60">Migrations</span>
+                <span className="font-bold text-chart-4">transactional</span>
+              </div>
             </div>
           </div>
-
-          <div className="mt-4 flex justify-between text-xs text-foreground/50 font-mono">
-            <span>{users.length} records</span>
-            <span>SQLite</span>
-          </div>
-
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

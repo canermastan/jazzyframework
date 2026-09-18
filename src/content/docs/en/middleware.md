@@ -5,6 +5,20 @@ description: Understanding and using built-in middleware in Jazzy.
 
 Middleware functions are components that execute before your route handlers. They can modify requests, check authentication, or handle cross-cutting concerns like logging and rate limiting. In Jazzy, a middleware is a `Middleware` object consisting of a `name` (for debugging/Dev UI) and a `handler` (a `MiddlewareProc`).
 
+<div class="docs-hero" data-wordmark="NEXT">
+  <p class="docs-kicker">THE PIPELINE AROUND A ROUTE</p>
+  <h2>Put cross-cutting decisions in one deliberate layer.</h2>
+  <p>Use the built-ins for common HTTP protection, compose a few middlewares in order, or define a small named middleware for application rules.</p>
+  <div class="docs-badges"><span>body limits</span><span>auth guards</span><span>rate limits</span></div>
+</div>
+
+<div class="journey-path">
+  <a href="#built-in-middleware"><strong>01</strong><span>Choose</span><small>Start with a built-in guard.</small></a>
+  <a href="#body-limit-middleware"><strong>02</strong><span>Limit</span><small>Protect uploads and request bodies.</small></a>
+  <a href="#multiple-middleware"><strong>03</strong><span>Compose</span><small>Make ordering explicit.</small></a>
+  <a href="#creating-custom-middleware"><strong>04</strong><span>Extend</span><small>Write a named reusable policy.</small></a>
+</div>
+
 ## Built-in Middleware
 
 Jazzy comes with several built-in middleware to handle common tasks:

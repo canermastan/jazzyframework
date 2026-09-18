@@ -10,6 +10,20 @@ business logic.
 
 Use this page as the production baseline for every Jazzy application.
 
+<div class="docs-hero" data-wordmark="SAFE">
+  <p class="docs-kicker">SHIP WITH A CHECKLIST</p>
+  <h2>Make the secure path the ordinary deployment path.</h2>
+  <p>This is the short baseline: real secrets, deliberate browser versus API authentication, HTTPS, and no development tools exposed to production.</p>
+  <div class="docs-badges"><span>production .env</span><span>small JWT claims</span><span>HTTPS only</span></div>
+</div>
+
+<div class="journey-path">
+  <a href="#production-checklist"><strong>01</strong><span>Configure</span><small>Set production-safe defaults.</small></a>
+  <a href="#jwt-authentication"><strong>02</strong><span>Issue tokens</span><small>Keep claims explicit and small.</small></a>
+  <a href="#csrf-choose-by-authentication-mechanism"><strong>03</strong><span>Choose CSRF</span><small>Match it to the auth mechanism.</small></a>
+  <a href="#security-testing"><strong>04</strong><span>Verify</span><small>Turn assumptions into tests.</small></a>
+</div>
+
 ## Production checklist
 
 Set these values in your deployment environment or secret manager, not in
@@ -103,7 +117,7 @@ upgrade legacy password hashes after a successful login.
 ```nim
 if verifyPassword(password, user.getString("password")):
   if passwordHashNeedsRehash(user.getString("password")):
-    DB.table("users").where("id", user.getInt("id")).update(%*{
+    discard await DB.table("users").where("id", user.getInt("id")).update(%*{
       "password": hashPassword(password)
     })
 ```

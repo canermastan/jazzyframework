@@ -33,6 +33,7 @@ export default defineConfig({
             { label: 'Introduction', link: '/' },
             { label: 'Installation', link: '/installation/' },
             { label: 'Getting Started', link: '/getting-started/' },
+            { label: 'Configuration & .env', link: '/configuration/' },
           ],
         },
         {
@@ -53,10 +54,13 @@ export default defineConfig({
           ],
         },
         {
-          label: 'Database',
+          label: 'Database · SQLite & PostgreSQL',
           items: [
+            { label: 'Start Here: Database Quickstart', link: '/database-quickstart/' },
             { label: 'Query Builder', link: '/database/' },
-            { label: 'Schema', link: '/schema/' },
+            { label: 'Schema Builder', link: '/schema/' },
+            { label: 'Migrations & Seeders', link: '/migrations/' },
+            { label: 'Typed ORM', link: '/orm/' },
           ],
         },
         {

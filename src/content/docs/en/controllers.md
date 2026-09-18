@@ -22,7 +22,7 @@ proc show*(ctx: Context) {.async.} =
   let id = ctx.param("id")
   
   # Fetch user from database
-  let user = DB.table("users").where("id", id).first()
+  let user = await DB.table("users").where("id", id).first()
   
   ctx.json(%*{
     "id": id, 
@@ -39,7 +39,7 @@ proc create*(ctx: Context) {.async.} =
   let hashedPassword = hashPassword(password)
   
   # Insert the new user into the database
-  let newId = DB.table("users").insert(%*{
+  let newId = await DB.table("users").insert(%*{
     "email": email,
     "password": hashedPassword,
     "role": "user"
