@@ -21,7 +21,7 @@ Jazzy utilizes standard `.env` files for configuration. This keeps your sensitiv
 ## Automatic Loading
 When you start your Jazzy application, it automatically looks for a `.env` file in the project root and loads variables into the environment.
 
-```env
+```dotenv
 # .env
 APP_ENV=development
 LOG_LEVEL=debug
@@ -35,7 +35,7 @@ JWT_SECRET=replace-with-a-random-secret-of-at-least-32-characters
 This is a complete, safe starting point for a local SQLite application. Copy
 it into `.env`, then replace `JWT_SECRET` with a private random value.
 
-```env
+```dotenv
 # Application
 APP_ENV=development
 LOG_LEVEL=debug
@@ -60,7 +60,7 @@ JWT_SECRET=replace-with-a-random-secret-of-at-least-32-characters
 
 For PostgreSQL, replace only the database block:
 
-```env
+```dotenv
 DB_CONNECTION=postgres
 DATABASE_URL=postgresql://jazzy:secret@127.0.0.1:5432/my_app
 DB_POOL_MIN=1
@@ -74,7 +74,7 @@ not need an explicit `connectDB()` call.
 
 ### SQLite (default)
 
-```env
+```dotenv
 DB_CONNECTION=sqlite
 DB_DATABASE=database.sqlite
 ```
@@ -84,7 +84,7 @@ DB_DATABASE=database.sqlite
 
 ### PostgreSQL
 
-```env
+```dotenv
 DB_CONNECTION=postgres
 DATABASE_URL=postgresql://jazzy:secret@127.0.0.1:5432/my_app
 DB_POOL_MIN=1
@@ -131,7 +131,7 @@ jazzy db:seed --force
 
 ### Production Example
 
-```env
+```dotenv
 APP_ENV=production
 LOG_LEVEL=info
 DEV_UI_ENABLED=false
@@ -172,7 +172,7 @@ cookie. Jazzy will then protect unsafe requests (`POST`, `PUT`, `PATCH`, and
 Stateless APIs that authenticate exclusively with `Authorization: Bearer` can
 leave it disabled. This is the default for projects created by `jazzy new`:
 
-```env
+```dotenv
 CSRF_ENABLED=false
 ```
 
@@ -216,7 +216,7 @@ let secret = getConfig("JWT_SECRET")
 Jazzy also keeps custom values, so `.env` is a convenient home for your own
 settings:
 
-```env
+```dotenv
 PAYMENTS_API_URL=https://payments.example.com
 FEATURE_NEW_CHECKOUT=true
 ```

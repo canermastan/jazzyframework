@@ -41,7 +41,7 @@ automatic development feature.
 - **Disabled by default:** The route is not registered until both settings below are present.
 - **Never available in production:** If `APP_ENV` is anything other than `development`, the `/dev-ui` route is not registered even if `DEV_UI_ENABLED=true`.
 
-```env
+```dotenv
 # .env
 APP_ENV=development
 DEV_UI_ENABLED=true

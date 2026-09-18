@@ -42,7 +42,7 @@ Jazzy's built-in logger provides color-coded, structured terminal output for eve
 
 You can control the verbosity of your logs by setting the `LOG_LEVEL` in your `.env` file.
 
-```env
+```dotenv
 # Possible values: DEBUG, INFO, WARN, ERROR, FATAL, NONE
 LOG_LEVEL=INFO
 ```

@@ -22,7 +22,7 @@ Route.get("/my-ip", proc(ctx: Context) {.async.} =
 
 By default, Jazzy does not trust proxy headers (like `X-Forwarded-For`) to prevent IP spoofing. To enable trust for proxies (common in production environments like Nginx, Heroku, or Cloudflare), set the `TRUST_PROXY` setting in your `.env`.
 
-```env
+```dotenv
 # .env
 TRUST_PROXY=true
 ```

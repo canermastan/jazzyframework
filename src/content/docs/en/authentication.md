@@ -22,7 +22,7 @@ Jazzy includes JWT authentication and password-hashing primitives. Read the
 
 ## Configuration
 Set your secret key in `.env`.
-```env
+```dotenv
 JWT_SECRET=super-secure-random-string-at-least-32-chars
 ```
 
@@ -171,7 +171,7 @@ Jazzy generates `CSRF_ENABLED=false` to keep JSON and Bearer-token APIs
 frictionless. Before using browser forms with the `auth_token` cookie, set this
 in your `.env`:
 
-```env
+```dotenv
 CSRF_ENABLED=true
 ```
 
@@ -235,7 +235,7 @@ Jazzy includes a `basicAuthGuard` for standard HTTP Basic Authentication. This i
 ### Configuration
 Enable Basic Auth by setting the credentials in your `.env`.
 
-```env
+```dotenv
 BASIC_AUTH_USER=admin
 BASIC_AUTH_PASSWORD=secret123
 ```

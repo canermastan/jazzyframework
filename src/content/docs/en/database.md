@@ -52,7 +52,7 @@ automatically. You do **not** need to call `connectDB()` in a new project.
 
 SQLite is the default and needs no server process.
 
-```env
+```dotenv
 DB_CONNECTION=sqlite
 DB_DATABASE=database.sqlite
 ```
@@ -62,7 +62,7 @@ DB_DATABASE=database.sqlite
 Use a PostgreSQL connection URL. Jazzy creates an async connection pool for
 each Mummy worker when that worker first needs the database.
 
-```env
+```dotenv
 DB_CONNECTION=postgres
 DATABASE_URL=postgresql://jazzy:secret@127.0.0.1:5432/my_app
 DB_POOL_MIN=1

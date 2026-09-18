@@ -40,7 +40,7 @@ Prevent server overload by restricting the size of request bodies (e.g., file up
 ### Global Configuration
 You can set a global limit in your `.env` file (in Megabytes).
 
-```env
+```dotenv
 # Limit all requests to 5MB
 BODY_LIMIT_MB=5
 ```

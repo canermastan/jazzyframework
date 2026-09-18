@@ -29,7 +29,7 @@ Use this page as the production baseline for every Jazzy application.
 Set these values in your deployment environment or secret manager, not in
 version control:
 
-```env
+```dotenv
 APP_ENV=production
 JWT_SECRET=replace-with-a-cryptographically-random-secret-at-least-32-characters
 CSRF_ENABLED=false
@@ -143,7 +143,7 @@ changes.
 The Dev UI can inspect configuration, clear cache, and execute SQL. It is
 therefore disabled unless both conditions are true:
 
-```env
+```dotenv
 APP_ENV=development
 DEV_UI_ENABLED=true
 ```

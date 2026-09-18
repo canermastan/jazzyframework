@@ -42,7 +42,7 @@ Jazzy loads `.env` automatically. New code does not call `connectDB()`.
 
 ### SQLite
 
-```env title=".env"
+```dotenv title=".env"
 DB_CONNECTION=sqlite
 DB_DATABASE=database.sqlite
 ```
@@ -51,7 +51,7 @@ DB_DATABASE=database.sqlite
 
 Replace the SQLite lines with a PostgreSQL URL:
 
-```env title=".env"
+```dotenv title=".env"
 DB_CONNECTION=postgres
 DATABASE_URL=postgresql://jazzy:secret@127.0.0.1:5432/notes_api
 

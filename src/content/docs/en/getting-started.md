@@ -38,7 +38,7 @@ generates its ignored runner in `.jazzy/` when needed.
 
 For SQLite, the generated `.env` is already enough:
 
-```env
+```dotenv
 APP_ENV=development
 DEV_UI_ENABLED=true
 DB_CONNECTION=sqlite
@@ -48,7 +48,7 @@ JWT_SECRET=replace-with-a-random-secret-of-at-least-32-characters
 
 For PostgreSQL, replace the SQLite settings with a URL:
 
-```env
+```dotenv
 DB_CONNECTION=postgres
 DATABASE_URL=postgresql://jazzy:secret@127.0.0.1:5432/todo_app
 DB_POOL_MIN=1
